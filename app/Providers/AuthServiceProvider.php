@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\User;
+use Illuminate\Auth\GenericUser;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,9 +32,21 @@ class AuthServiceProvider extends ServiceProvider
         // should return either a User instance or null. You're free to obtain
         // the User instance via an API token or any other method necessary.
 
+//        $this->app['auth']->viaRequest('api', function ($request) {
+//            if ($request->input('api_token')) {
+//                return User::where('api_token', $request->input('api_token'))->first();
+//            }
+//        });
+
+        // 自定义的验证
         $this->app['auth']->viaRequest('api', function ($request) {
-            if ($request->input('api_token')) {
-                return User::where('api_token', $request->input('api_token'))->first();
+            if ($token = $request->header('token')) {
+                $token_cache_key = 'token:' . $token;
+                if (Cache::has($token_cache_key)) {
+                    Cache::connection()->expire(Cache::getPrefix() . $token_cache_key, 3600); //缓存续期
+//                    return new GenericUser(Cache::get($token_cache_key));
+                    return Cache::get($token_cache_key);
+                }
             }
         });
     }

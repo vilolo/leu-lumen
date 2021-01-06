@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Tools\Utils;
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
 
@@ -36,7 +37,8 @@ class Authenticate
     public function handle($request, Closure $next, $guard = null)
     {
         if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+//            return response('Unauthorized.', 401);
+            return Utils::res_error('请登录！', [], 401);
         }
 
         return $next($request);

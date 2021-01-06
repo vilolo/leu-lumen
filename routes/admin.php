@@ -13,9 +13,14 @@
 |
 */
 
-$router->group(['namespace' => 'Api\\v1', 'prefix' => 'api/v1'], function() use ($router){
+$router->group(['namespace' => 'Admin\\v1', 'prefix' => 'admin/v1'], function() use ($router){
+
+    //需要登录接口
+    $router->group(['middleware' => 'auth'], function() use ($router){
+        $router->get('/bb','TestController@userInfo');
+    });
+
+    //无需登录接口
+    $router->post('/login','AdminAccountController@login');
     $router->get('/tt','TestController@index');
 });
-
-
-
