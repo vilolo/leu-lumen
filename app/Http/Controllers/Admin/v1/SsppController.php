@@ -23,7 +23,7 @@ class SsppController extends BaseAdminController
 
     public function getData(Request $request)
     {
-        $this->platform = $request->platform??'my';
+        $this->platform = $request->store??'my';
         $keyword = $request->keyword??'bag';
         $type = $request->type??1; //1=keyword, 2=store
         $minPrice = $request->minPrice??'';
