@@ -38,7 +38,8 @@ class Authenticate
     {
         if ($this->auth->guard($guard)->guest()) {
 //            return response('Unauthorized.', 401);
-            return Utils::res_error('请登录！', [], 401);
+//            return Utils::res_error('请登录！', [], 401);
+            return response()->json(Utils::res_error('请登录！', [], 401))->setEncodingOptions(JSON_UNESCAPED_UNICODE);
         }
 
         return $next($request);

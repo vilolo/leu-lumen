@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\v1;
 
 
 use App\Http\Controllers\Admin\BaseAdminController;
+use App\Tools\Utils;
 use Illuminate\Http\Request;
 
 
@@ -18,9 +19,11 @@ class SsppController extends BaseAdminController
         'sg' => 'https://sg.xiapibuy.com/',
     ];
 
+    private $platform = '';
+
     public function getData(Request $request)
     {
-        $platform = $request->platform??'my';
+        $this->platform = $request->platform??'my';
         $keyword = $request->keyword??'bag';
         $type = $request->type??1; //1=keyword, 2=store
         $minPrice = $request->minPrice??'';
@@ -46,9 +49,9 @@ class SsppController extends BaseAdminController
 
         if ($type == 1){
             $param = http_build_query($data);
-            $url = self::URL_LIST[$platform]."/api/v2/search_items/?".$param;
+            $url = self::URL_LIST[$this->platform]."/api/v2/search_items/?".$param;
         }else{
-            $url = self::URL_LIST[$platform]."/api/v4/shop/get_shop_detail?username=".$keyword;
+            $url = self::URL_LIST[$this->platform]."/api/v4/shop/get_shop_detail?username=".$keyword;
             $res = $this->curlGet($url, md5('55b03'.md5("username=".$keyword).'55b03'));
             $res = json_decode($res, true);
 
@@ -58,7 +61,7 @@ class SsppController extends BaseAdminController
             $data['match_id'] = $res['data']['shopid'];
             $param = http_build_query($data);
             //https://shopee.com.my/api/v2/search_items/?by=sales&limit=30&match_id=298441267&newest=0&order=desc&page_type=shop&version=2
-            $url = self::URL_LIST[$platform]."/api/v2/search_items/?".$param;
+            $url = self::URL_LIST[$this->platform]."/api/v2/search_items/?".$param;
         }
 
         $k = md5('55b03'.md5($param).'55b03');
@@ -85,7 +88,74 @@ class SsppController extends BaseAdminController
 
     public function getOrganizeData(Request $request)
     {
-        $data = $this->getData($request);
-        return $data;
+        $res = $this->getData($request);
+        $arr = json_decode($res, true);
+
+//        echo '<pre>';
+//        print_r($arr);
+//        echo '</pre>';die();
+
+        //商品总数，计算查询商品总销量，计算出平均价格，广告个数
+        $data = [
+            'total_count' => $arr['total_count'],
+            'total_ads_count' => $arr['total_ads_count'],
+        ];
+
+        $totalSold = 0;
+        $totalPrice = 0;
+        $realTotalPrice = 0;
+        $goodsList = [];
+        if (!$arr['items']){
+            return Utils::res_error('数据未获取到:'.print_r($arr, true));
+        }
+        foreach ($arr['items'] as $k => $v){
+            $totalSold += (int)$v['sold'];
+            $totalPrice += (int)$v['price'];
+            $realTotalPrice += (int)$v['price']*(int)$v['sold'];
+            //url，标题，价格，上架时间，天数，点赞数（平均），观看数（平均），历史销量（平均），最近销量，图片
+            $days = (int)(time() - (int)$v['ctime'])/86400;
+            $days = $days <=0 ? 1 : $days;
+            $imgUrl = 'https://cf.shopee.com.my/file/';
+            $imgList = [
+                $imgUrl.$v['images'][0]
+            ];
+            if (count($v['images']) > 1){
+                $imgList[] = $imgUrl.$v['images'][1];
+            }
+            $temp = [
+                'url' => self::URL_LIST[$this->platform].preg_replace("/[\\s|\\[|\\]]+/", '-', str_replace('#','', str_replace('%', '', $v['name']))).'-i.'.$v['shopid'].'.'.$v['itemid'],
+                'name' => $v['name'],
+                'price' => ((int)$v['price'])/100000,
+                'ctime' => date('Y-m-d', $v['ctime']),
+                'days' => sprintf("%.2f",$days),
+                'liked_count' => $v['liked_count'],
+                'liked_count_avg' => sprintf("%.2f",(int)$v['liked_count']/$days),
+                'view_count' => $v['view_count'],
+                'view_count_avg' => sprintf("%.2f",(int)$v['view_count']/$days),
+                'historical_sold' => $v['historical_sold'],
+                'historical_sold_avg' => sprintf("%.2f",(int)$v['historical_sold']/$days),
+                'sold' => $v['sold'],
+                'ads_keyword' => $v['ads_keyword'],
+                'images' => $imgList,
+                'shop_location' => $v['shop_location'],
+            ];
+
+            $goodsList[] = $temp;
+        }
+
+        $data['avgPrice'] = count($arr['items']) > 0 ? sprintf('%.2f', ($totalPrice/100000)/count($arr['items'])) : 0;
+        $data['avgSold'] = $data['total_count'] > 0 ? sprintf('%.2f', $totalSold/$data['total_count']) : 0;
+        $data['count_sold'] = $totalSold;
+        $data['realAvgPrice'] = $totalSold > 0 ? sprintf('%.2f', ($realTotalPrice/100000)/$totalSold) : 0;
+
+//        echo '<pre>';
+//        print_r($data);
+//        print_r($goodsList);
+//        echo '</pre>';die();
+
+        return Utils::res_ok('ok',[
+            'goodsList' => $goodsList,
+            'info' => $data
+        ]);
     }
 }
