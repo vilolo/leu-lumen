@@ -24,5 +24,5 @@ $router->group(['middleware' => 'auth'], function() use ($router){
 $router->group(['namespace' => 'Admin\\v1', 'prefix' => 'admin/v1'], function() use ($router){
     $router->post('/login','AdminAccountController@login');
     $router->get('/tt','TestController@index');
-    $router->get('/test','SsppController@test');
+    $router->get('/getOrganizeData','SsppController@getOrganizeData');
 });

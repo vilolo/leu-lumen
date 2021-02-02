@@ -17,7 +17,8 @@ class SsppController extends BaseAdminController
         'br' => 'https://br.xiapibuy.com/',
         'sg' => 'https://sg.xiapibuy.com/',
     ];
-    public function test(Request $request)
+
+    public function getData(Request $request)
     {
         $platform = $request->platform??'my';
         $keyword = $request->keyword??'bag';
@@ -80,5 +81,11 @@ class SsppController extends BaseAdminController
         $output = curl_exec($ch);
         curl_close($ch);
         return $output;
+    }
+
+    public function getOrganizeData(Request $request)
+    {
+        $data = $this->getData($request);
+        return $data;
     }
 }
