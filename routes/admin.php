@@ -25,4 +25,5 @@ $router->group(['namespace' => 'Admin\\v1', 'prefix' => 'admin/v1'], function() 
     $router->post('/login','AdminAccountController@login');
     $router->get('/tt','TestController@index');
     $router->get('/getOrganizeData','SsppController@getOrganizeData');
+    $router->get('/newOrganizeData','SsppController@newOrganizeData');
 });

@@ -87,6 +87,74 @@ class SsppController extends BaseAdminController
         return $output;
     }
 
+    public function newOrganizeData(Request $request)
+    {
+        $res = $this->getData($request);
+        $arr = json_decode($res, true);
+        $data = [
+            'total_count' => $arr['total_count'],
+            'total_ads_count' => $arr['total_ads_count'],
+        ];
+        if (!$arr['items']){
+            return Utils::res_error('数据未获取到:'.print_r($arr, true));
+        }
+        $goodsList = [];
+        foreach ($arr['items'] as $k => $v){
+            //标题，链接，图片，最低价，最高价，30天销量，总销量，上架时间，评分
+            $name = $v['name'];
+            $url = self::URL_LIST[$this->platform].preg_replace("/[\\s|\\[|\\]]+/", '-', str_replace('#','', str_replace('%', '', $v['name']))).'-i.'.$v['shopid'].'.'.$v['itemid'];
+            $imgUrl = 'https://cf.shopee.com.my/file/';
+            $imgList = [
+                $imgUrl.$v['images'][0].'_tn'
+            ];
+            if (count($v['images']) > 1){
+                $imgList[] = $imgUrl.$v['images'][1].'_tn';
+            }
+            //取最低最高平均数
+            $price = bcdiv(bcadd($v['price_min'], $v['price_max'],3), 200000, 3);
+            $sold = $v['sold'];
+            $historicalSold = $v['historical_sold'];
+            $ctime = date('Y-m-d', $v['ctime']);
+            $itemRating = $v['item_rating']['rating_star'];
+
+            //上架天数，平均每日浏览数，30天平均销量，总平均销量，30天利润，总利润，30天平均利润，总平均利润，平均点赞数
+            $days = ceil(bcdiv(bcsub(time(), $v['ctime']), 86400, 2));
+            $avgViewCount = bcdiv($v['view_count'], $days, 2);
+            $avgSold = bcdiv($sold, $days, 2);
+            $avgHistoricalSold = bcdiv($historicalSold, $days, 2);
+            $soldProfit = bcmul(bcmul($sold, $price, 2), 0.1, 2);
+            $soldHistoricalProfit = bcmul(bcmul($historicalSold, $price, 2), 0.1, 2);
+            $avgSoldProfit = bcdiv($soldProfit, 30, 2);
+            $avgSoldHistoricalProfit = bcdiv($soldHistoricalProfit, $days, 2);
+            $avgLike = bcdiv($v['liked_count'], $days, 2);
+
+            $goodsList[] = [
+                'name' => $name,
+                'images' => $imgList,
+                'url' => $url,
+                'price' => $price,
+                'ctime' => $ctime,
+                'days' => $days,
+                'sold' => $sold,
+                'avgSold' => $avgSold,
+                'soldProfit' => $soldProfit,
+                'avgSoldProfit' => $avgSoldProfit,
+                'historicalSold' => $historicalSold,
+                'avgHistoricalSold' => $avgHistoricalSold,
+                'soldHistoricalProfit' => $soldHistoricalProfit,
+                'avgSoldHistoricalProfit' => $avgSoldHistoricalProfit,
+                'avgViewCount' => $avgViewCount,
+                'itemRating' => $itemRating,
+                'avgLike' => $avgLike,
+            ];
+
+        }
+        return Utils::res_ok('ok',[
+            'goodsList' => $goodsList,
+            'info' => $data
+        ]);
+    }
+
     public function getOrganizeData(Request $request)
     {
         $res = $this->getData($request);
