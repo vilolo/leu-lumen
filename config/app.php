@@ -1,4 +1,4 @@
 <?php
 return [
-    'a' => 'aaaa'
+    'debug' => env('APP_DEBUG', true),
 ];
