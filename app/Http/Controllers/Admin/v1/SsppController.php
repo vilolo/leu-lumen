@@ -121,7 +121,7 @@ class SsppController extends BaseAdminController
             $days = ceil(bcdiv(bcsub(time(), $v['ctime']), 86400, 2));
             $avgViewCount = bcdiv($v['view_count'], $days, 2);
             $avgSold = bcdiv($sold, 30, 2);
-            $avgHistoricalSold = bcdiv($historicalSold, 30, 2);
+            $avgHistoricalSold = bcdiv($historicalSold, $days, 2);
             $soldProfit = bcmul(bcmul($sold, $price, 2), 0.1, 2);
             $soldHistoricalProfit = bcmul(bcmul($historicalSold, $price, 2), 0.1, 2);
             $avgSoldProfit = bcdiv($soldProfit, 30, 2);
