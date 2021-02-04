@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class Utils
 {
-    const RES_OK = 200;
+    const RES_OK = 20000;
     const RES_ERROR = 100;
 
     public static function res_ok($msg = 'Success', $data = [])
@@ -24,7 +24,7 @@ class Utils
     {
         return [
             'code' => $code,
-            'msg' => $msg,
+            'message' => $msg,
             'data' => $data
         ];
     }
