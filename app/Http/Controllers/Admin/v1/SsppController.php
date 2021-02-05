@@ -111,7 +111,7 @@ class SsppController extends BaseAdminController
                 $imgList[] = $imgUrl.$v['images'][1].'_tn';
             }
             //取最低最高平均数
-            $price = bcdiv(bcadd($v['price_min'], $v['price_max'],3), 200000, 3);
+            $price = bcdiv(bcadd($v['price_min'], $v['price_max'],3), 100000*2, 3);
             $sold = $v['sold'];
             $historicalSold = $v['historical_sold'];
             $ctime = date('Y-m-d', $v['ctime']);
@@ -122,7 +122,7 @@ class SsppController extends BaseAdminController
             //上架天数，平均每日浏览数，30天平均销量，总平均销量，30天利润，总利润，30天平均利润，总平均利润，平均点赞数
             $days = ceil(bcdiv(bcsub(time(), $v['ctime']), 86400, 2));
             $avgViewCount = bcdiv($v['view_count'], $days, 2);
-            $avgSold = bcdiv($sold, $days, 2);
+            $avgSold = bcdiv($sold, 30, 2);
             $avgHistoricalSold = bcdiv($historicalSold, $days, 2);
             $soldProfit = bcmul(bcmul($sold, $price, 2), 0.1, 2);
             $soldHistoricalProfit = bcmul(bcmul($historicalSold, $price, 2), 0.1, 2);
