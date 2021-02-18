@@ -28,4 +28,5 @@ $router->group(['namespace' => 'Admin\\v1', 'prefix' => 'admin/v1'], function() 
     $router->get('/newOrganizeData','SsppController@newOrganizeData');
     $router->get('/showTemplate','SsppController@showTemplate');
     $router->post('/saveTemplate','SsppController@saveTemplate');
+    $router->get('/getCategory','SsppController@getCategory');
 });
