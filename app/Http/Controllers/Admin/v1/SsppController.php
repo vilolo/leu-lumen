@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin\v1;
 
 
 use App\Http\Controllers\Admin\BaseAdminController;
+use App\Models\TemplateModel;
 use App\Tools\Utils;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class SsppController extends BaseAdminController
@@ -226,5 +228,27 @@ class SsppController extends BaseAdminController
             'goodsList' => $goodsList,
             'info' => $data
         ]);
+    }
+
+    public function showTemplate()
+    {
+        $res = TemplateModel::get();
+        return Utils::res_ok('', $res);
+    }
+
+    public function saveTemplate(Request $request)
+    {
+        Utils::validator($request, [
+            'shop' => 'required',
+            'description' => 'required',
+        ]);
+        $template = TemplateModel::where('shop', $request->shop)->first();
+        if (!$template){
+            $template = new TemplateModel();
+            $template->shop = $request->shop;
+        }
+        $template->description = $request->description;
+        $template->save();
+        return Utils::res_ok();
     }
 }
