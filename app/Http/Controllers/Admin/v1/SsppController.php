@@ -102,7 +102,7 @@ class SsppController extends BaseAdminController
         }
         $goodsList = [];
         foreach ($arr['items'] as $k => $v){
-            //标题，链接，图片，最低价，最高价，30天销量，总销量，上架时间，评分
+            //标题，链接，图片，最低价，最高价，30天销量，总销量，上架时间，评分，广告词，地方
             $name = $v['name'];
             $url = self::URL_LIST[$this->platform].preg_replace("/[\\s|\\[|\\]]+/", '-', str_replace('#','', str_replace('%', '', $v['name']))).'-i.'.$v['shopid'].'.'.$v['itemid'];
             $imgUrl = 'https://cf.shopee.com.my/file/';
@@ -118,6 +118,8 @@ class SsppController extends BaseAdminController
             $historicalSold = $v['historical_sold'];
             $ctime = date('Y-m-d', $v['ctime']);
             $itemRating = $v['item_rating']['rating_star'];
+            $ads_keyword = $v['ads_keyword'];
+            $shop_location = $v['shop_location'];
 
             //上架天数，平均每日浏览数，30天平均销量，总平均销量，30天利润，总利润，30天平均利润，总平均利润，平均点赞数
             $days = ceil(bcdiv(bcsub(time(), $v['ctime']), 86400, 2));
@@ -148,6 +150,8 @@ class SsppController extends BaseAdminController
                 'avgViewCount' => $avgViewCount,
                 'itemRating' => $itemRating,
                 'avgLike' => $avgLike,
+                'adsKeyword' => $ads_keyword,
+                'shopLocation' => $shop_location,
             ];
 
         }

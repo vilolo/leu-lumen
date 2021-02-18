@@ -23,7 +23,7 @@ $router->group(['middleware' => 'auth'], function() use ($router){
 //无需登录接口
 $router->group(['namespace' => 'Admin\\v1', 'prefix' => 'admin/v1'], function() use ($router){
     $router->post('/login','AdminAccountController@login');
-    $router->get('/tt','TestController@index');
+    $router->get('/test','TestController@index');
     $router->get('/getOrganizeData','SsppController@getOrganizeData');
     $router->get('/newOrganizeData','SsppController@newOrganizeData');
     $router->get('/showTemplate','SsppController@showTemplate');
