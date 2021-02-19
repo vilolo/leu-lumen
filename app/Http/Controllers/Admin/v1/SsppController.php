@@ -139,7 +139,8 @@ class SsppController extends BaseAdminController
             //标题，链接，图片，最低价，最高价，30天销量，总销量，上架时间，评分，广告词，地方
             $name = $v['name'];
             $url = self::URL_LIST[$this->platform].preg_replace("/[\\s|\\[|\\]]+/", '-', str_replace('#','', str_replace('%', '', $v['name']))).'-i.'.$v['shopid'].'.'.$v['itemid'];
-            $imgUrl = 'https://cf.shopee.com.my/file/';
+            //$imgUrl = 'https://cf.shopee.com.my/file/';
+            $imgUrl = 'https://s-cf-my.shopeesz.com/file/';
             $imgList = [
                 $imgUrl.$v['images'][0].'_tn'
             ];
@@ -224,7 +225,8 @@ class SsppController extends BaseAdminController
             //url，标题，价格，上架时间，天数，点赞数（平均），观看数（平均），历史销量（平均），最近销量，图片
             $days = (int)(time() - (int)$v['ctime'])/86400;
             $days = $days <=0 ? 1 : $days;
-            $imgUrl = 'https://cf.shopee.com.my/file/';
+//            $imgUrl = 'https://cf.shopee.com.my/file/';
+            $imgUrl = 'https://s-cf-my.shopeesz.com/file/';
             $imgList = [
                 $imgUrl.$v['images'][0].'_tn'
             ];

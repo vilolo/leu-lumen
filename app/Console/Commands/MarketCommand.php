@@ -57,10 +57,19 @@ class MarketCommand extends Command
 
     private function market()
     {
-        $platform = 'sg';
-        $file = './public/'.$platform.'/category.json';
-        $categoryData = file_get_contents($file);
-        $arr = json_decode($categoryData, JSON_UNESCAPED_UNICODE);
+        $platform = 'tw';
+//        $file = './public/'.$platform.'/category.json';
+//        $categoryData = file_get_contents($file);
+//        $arr = json_decode($categoryData, JSON_UNESCAPED_UNICODE);
+
+        $arr = [
+            ['cid' => 100],
+            ['cid' => 1611],
+            ['cid' => 70],
+            ['cid' => 73],
+            ['cid' => 75],
+        ];
+
         foreach ($arr as $v){
             $cid = $v['cid'];
             $res = $this->getData($platform, $cid);
