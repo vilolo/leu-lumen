@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\v1;
 
 
 use App\Http\Controllers\Admin\BaseAdminController;
+use App\Models\MarketModel;
 use App\Models\TemplateModel;
 use App\Tools\Utils;
 use Illuminate\Http\Request;
@@ -26,6 +27,16 @@ class SsppController extends BaseAdminController
     public function getData(Request $request)
     {
         $this->platform = $request->store??'my';
+
+        if ($request->dataFrom == 'offline'){
+            //数据库获取数据
+            $res = MarketModel::where([
+                ['cid', $request->cids],
+                ['shop', $request->store],
+            ])->orderBy('id', 'desc')->first();
+            return $res->data ?? '数据不存在';
+        }
+
         $keyword = $request->keyword;
         $type = $request->type??1; //1=keyword, 2=store, 3=category
         $minPrice = $request->minPrice??'';
@@ -58,9 +69,9 @@ class SsppController extends BaseAdminController
                 'page_type' => 'search',
                 'categoryids' => $cids,
                 'version' => '2',
-                'price_min' => $minPrice??'',
-                'price_max' => $maxPrice??'',
-                'locations' => $location??-2,
+                'price_min' => $minPrice,
+                'price_max' => $maxPrice,
+                'locations' => $location,
             ];
         }
         $data = array_filter($data);

@@ -57,7 +57,7 @@ class MarketCommand extends Command
 
     private function market()
     {
-        $platform = 'my';
+        $platform = 'sg';
         $file = './public/'.$platform.'/category.json';
         $categoryData = file_get_contents($file);
         $arr = json_decode($categoryData, JSON_UNESCAPED_UNICODE);
