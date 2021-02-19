@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Admin\v1;
 
 
 use App\Http\Controllers\Admin\BaseAdminController;
+use App\Models\MarketModel;
+use App\Models\TemplateModel;
 use App\Tools\Utils;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class SsppController extends BaseAdminController
@@ -24,26 +27,53 @@ class SsppController extends BaseAdminController
     public function getData(Request $request)
     {
         $this->platform = $request->store??'my';
+
+        if ($request->dataFrom == 'offline'){
+            //数据库获取数据
+            $res = MarketModel::where([
+                ['cid', $request->cids],
+                ['shop', $request->store],
+            ])->orderBy('id', 'desc')->first();
+            return $res->data ?? '数据不存在';
+        }
+
         $keyword = $request->keyword;
-        $type = $request->type??1; //1=keyword, 2=store
+        $type = $request->type??1; //1=keyword, 2=store, 3=category
         $minPrice = $request->minPrice??'';
         $maxPrice = $request->maxPrice??'';
         $location = $request->oversea??''; //-1=local,-2=overseas
+        $cids = $request->cids??'';
 
 //        echo md5('55b03'.md5('by=sales&keyword=bag&limit=50&newest=0&order=desc&page_type=search&price_max=1000&price_min=0&skip_autocorrect=1&version=2').'55b03');die();
 //        $param = 'by=sales&keyword=bag&limit=50&newest=0&order=desc&page_type=search&price_max=1000&price_min=0&skip_autocorrect=1&version=2';
 
-        $data = [
-            'by' => 'sales',
-            'keyword' => $keyword,
-            'limit' => '100',
-            'order' => 'desc',
-            'page_type' => ($type==1)?'search':'shop',
-            'version' => '2',
-            'price_min' => $minPrice,
-            'price_max' => $maxPrice,
-            'locations' => $location,
-        ];
+        if ($type != 3){
+            $data = [
+                'by' => 'sales',
+                'keyword' => $keyword,
+                'limit' => '100',
+                'order' => 'desc',
+                'page_type' => ($type==1)?'search':'shop',
+                'version' => '2',
+                'price_min' => $minPrice,
+                'price_max' => $maxPrice,
+                'locations' => $location,
+            ];
+        }else{
+            $data = [
+                'by' => 'sales',
+//            'keyword' => $keyword,
+                'limit' => '100',
+                'order' => 'desc',
+//            'page_type' => ($type==1)?'search':'shop',
+                'page_type' => 'search',
+                'categoryids' => $cids,
+                'version' => '2',
+                'price_min' => $minPrice,
+                'price_max' => $maxPrice,
+                'locations' => $location,
+            ];
+        }
         $data = array_filter($data);
         $data['newest'] = $request->newest??0;
 
@@ -91,6 +121,12 @@ class SsppController extends BaseAdminController
     {
         $res = $this->getData($request);
         $arr = json_decode($res, true);
+        $data = $this->assignData($arr);
+        return Utils::res_ok('ok',$data);
+    }
+
+    private function assignData($arr)
+    {
         $data = [
             'total_count' => $arr['total_count'],
             'total_ads_count' => $arr['total_ads_count'],
@@ -103,7 +139,8 @@ class SsppController extends BaseAdminController
             //标题，链接，图片，最低价，最高价，30天销量，总销量，上架时间，评分，广告词，地方
             $name = $v['name'];
             $url = self::URL_LIST[$this->platform].preg_replace("/[\\s|\\[|\\]]+/", '-', str_replace('#','', str_replace('%', '', $v['name']))).'-i.'.$v['shopid'].'.'.$v['itemid'];
-            $imgUrl = 'https://cf.shopee.com.my/file/';
+            //$imgUrl = 'https://cf.shopee.com.my/file/';
+            $imgUrl = 'https://s-cf-my.shopeesz.com/file/';
             $imgList = [
                 $imgUrl.$v['images'][0].'_tn'
             ];
@@ -153,10 +190,10 @@ class SsppController extends BaseAdminController
             ];
 
         }
-        return Utils::res_ok('ok',[
+        return [
             'goodsList' => $goodsList,
             'info' => $data
-        ]);
+        ];
     }
 
     public function getOrganizeData(Request $request)
@@ -188,7 +225,8 @@ class SsppController extends BaseAdminController
             //url，标题，价格，上架时间，天数，点赞数（平均），观看数（平均），历史销量（平均），最近销量，图片
             $days = (int)(time() - (int)$v['ctime'])/86400;
             $days = $days <=0 ? 1 : $days;
-            $imgUrl = 'https://cf.shopee.com.my/file/';
+//            $imgUrl = 'https://cf.shopee.com.my/file/';
+            $imgUrl = 'https://s-cf-my.shopeesz.com/file/';
             $imgList = [
                 $imgUrl.$v['images'][0].'_tn'
             ];
@@ -230,5 +268,38 @@ class SsppController extends BaseAdminController
             'goodsList' => $goodsList,
             'info' => $data
         ]);
+    }
+
+    public function showTemplate()
+    {
+        $res = TemplateModel::get();
+        return Utils::res_ok('', $res);
+    }
+
+    public function saveTemplate(Request $request)
+    {
+        Utils::validator($request, [
+            'shop' => 'required',
+            'description' => 'required',
+        ]);
+        $template = TemplateModel::where('shop', $request->shop)->first();
+        if (!$template){
+            $template = new TemplateModel();
+            $template->shop = $request->shop;
+        }
+        $template->description = $request->description;
+        $template->save();
+        return Utils::res_ok();
+    }
+
+    public function getCategory(Request $request)
+    {
+        Utils::validator($request, [
+            'shop' => 'required'
+        ]);
+
+        $data = file_get_contents('./'.$request->shop.'/category.json');
+        $data = json_decode($data, JSON_UNESCAPED_UNICODE);
+        return Utils::res_ok('ok', $data);
     }
 }

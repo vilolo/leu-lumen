@@ -4,6 +4,9 @@
 namespace App\Tools;
 
 
+use App\Exceptions\ApiException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator as IValidator;
 use Illuminate\Support\Str;
 
 class Utils
@@ -32,5 +35,15 @@ class Utils
     public static function create_token()
     {
         return Str::random(mt_rand(16, 64)); //生成随机token
+    }
+
+    public static function validator(Request $request, array $rules, array $messages = []){
+        $validator = IValidator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            $messages = $validator->errors()->toArray();
+            $msg = '';
+            foreach ($messages as $key => $value) { $msg = $key.':'.$value[0]; break;}
+            throw new ApiException($msg,422);
+        }
     }
 }
