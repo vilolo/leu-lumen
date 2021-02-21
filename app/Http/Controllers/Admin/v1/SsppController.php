@@ -343,6 +343,6 @@ class SsppController extends BaseAdminController
     {
         return GoodsCollectModel::where([
             'status' => 1
-        ])->pluck('goods_info', 'id');
+        ])->orderBy('id', 'desc')->pluck('goods_info', 'id');
     }
 }
