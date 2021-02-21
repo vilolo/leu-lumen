@@ -128,7 +128,7 @@ class SsppController extends BaseAdminController
     private function assignData($arr)
     {
         $data = [
-            'total_count' => $arr['total_count'],
+            'total_count' => number_format($arr['total_count']),
             'total_ads_count' => $arr['total_ads_count'],
         ];
         if (!$arr['items']){
