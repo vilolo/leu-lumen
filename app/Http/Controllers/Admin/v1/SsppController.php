@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\v1;
 
 
 use App\Http\Controllers\Admin\BaseAdminController;
+use App\Models\GoodsCollectModel;
 use App\Models\MarketModel;
 use App\Models\TemplateModel;
 use App\Tools\Utils;
@@ -119,9 +120,24 @@ class SsppController extends BaseAdminController
 
     public function newOrganizeData(Request $request)
     {
-        $res = $this->getData($request);
-        $arr = json_decode($res, true);
-        $data = $this->assignData($arr);
+        //1=keyword, 2=store, 3=category, 4=collect
+        if ($request->type == 4){
+            $goodsList = $this->collectList();
+            $list = [];
+            foreach ($goodsList as $k => $v){
+                $temp = json_decode($v, JSON_UNESCAPED_UNICODE);
+                $temp['did'] = $k;
+                $list[] = $temp;
+            }
+            $data = [
+                'goodsList' => $list,
+                'info' => []
+            ];
+        }else{
+            $res = $this->getData($request);
+            $arr = json_decode($res, true);
+            $data = $this->assignData($arr);
+        }
         return Utils::res_ok('ok',$data);
     }
 
@@ -301,5 +317,32 @@ class SsppController extends BaseAdminController
         $data = file_get_contents('./'.$request->shop.'/category.json');
         $data = json_decode($data, JSON_UNESCAPED_UNICODE);
         return Utils::res_ok('ok', $data);
+    }
+
+    public function addCollect(Request $request)
+    {
+        Utils::validator($request, [
+            'row' => 'required'
+        ]);
+        GoodsCollectModel::insert([
+            'goods_info' => $request->row
+        ]);
+        return Utils::res_ok('ok');
+    }
+
+    public function delCollect(Request $request)
+    {
+        Utils::validator($request, [
+            'id' => 'required'
+        ]);
+        GoodsCollectModel::where('id', $request->id)->delete();
+        return Utils::res_ok('ok');
+    }
+
+    private function collectList()
+    {
+        return GoodsCollectModel::where([
+            'status' => 1
+        ])->pluck('goods_info', 'id');
     }
 }
