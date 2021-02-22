@@ -28,13 +28,13 @@ class SsppController extends BaseAdminController
 
     public function getData(Request $request)
     {
-        $this->platform = $request->store??'my';
+        $this->platform = $request->shop??'my';
 
         if ($request->dataFrom == 'offline'){
             //数据库获取数据
             $res = MarketModel::where([
                 ['cid', $request->cids],
-                ['shop', $request->store],
+                ['shop', $request->shop],
             ])->orderBy('id', 'desc')->first();
             return $res->data ?? '数据不存在';
         }
@@ -350,7 +350,7 @@ class SsppController extends BaseAdminController
     public function saveSearchLog(Request $request)
     {
         $type = $request->type??0;
-        $shop = $request->keyword??'';
+        $shop = $request->shop??'';
         $keyword = $request->keyword??'';
         $params = json_encode($request->toArray(), JSON_UNESCAPED_UNICODE);
         SearchLogModel::insert([
