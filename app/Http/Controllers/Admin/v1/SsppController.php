@@ -336,7 +336,7 @@ class SsppController extends BaseAdminController
         Utils::validator($request, [
             'id' => 'required'
         ]);
-        GoodsCollectModel::where('id', $request->id)->update(['status', 0]);
+        GoodsCollectModel::where('id', $request->id)->update(['status' => 0]);
         return Utils::res_ok('ok');
     }
 
@@ -380,7 +380,7 @@ class SsppController extends BaseAdminController
         Utils::validator($request, [
             'id' => 'required'
         ]);
-        SearchLogModel::where('id', $request->id)->update(['status', 0]);
+        SearchLogModel::where('id', $request->id)->update(['status' => 0]);
         return Utils::res_ok('ok');
     }
 }
