@@ -369,6 +369,9 @@ class SsppController extends BaseAdminController
             $where[] = ['type', $request->type];
         }
         $list = SearchLogModel::where($where)->orderBy('id', 'desc')->get();
+        foreach ($list as $k => $v){
+            $list[$k]['params'] = http_build_query($v['params']);
+        }
         return Utils::res_ok('ok', $list);
     }
 
