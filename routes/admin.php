@@ -31,4 +31,7 @@ $router->group(['namespace' => 'Admin\\v1', 'prefix' => 'admin/v1'], function() 
     $router->get('/getCategory','SsppController@getCategory');
     $router->post('/addCollect','SsppController@addCollect');
     $router->post('/delCollect','SsppController@delCollect');
+    $router->post('/saveSearchLog','SsppController@saveSearchLog');
+    $router->post('/showSearchLog','SsppController@showSearchLog');
+    $router->post('/delSearchLog','SsppController@delSearchLog');
 });

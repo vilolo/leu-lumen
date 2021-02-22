@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Admin\v1;
 use App\Http\Controllers\Admin\BaseAdminController;
 use App\Models\GoodsCollectModel;
 use App\Models\MarketModel;
+use App\Models\SearchLogModel;
 use App\Models\TemplateModel;
 use App\Tools\Utils;
 use Illuminate\Http\Request;
@@ -335,7 +336,7 @@ class SsppController extends BaseAdminController
         Utils::validator($request, [
             'id' => 'required'
         ]);
-        GoodsCollectModel::where('id', $request->id)->delete();
+        GoodsCollectModel::where('id', $request->id)->update(['status', 0]);
         return Utils::res_ok('ok');
     }
 
@@ -344,5 +345,39 @@ class SsppController extends BaseAdminController
         return GoodsCollectModel::where([
             'status' => 1
         ])->orderBy('id', 'desc')->pluck('goods_info', 'id');
+    }
+
+    public function saveSearchLog(Request $request)
+    {
+        $type = $request->type??0;
+        $shop = $request->keyword??'';
+        $keyword = $request->keyword??'';
+        $params = json_encode($request->toArray(), JSON_UNESCAPED_UNICODE);
+        SearchLogModel::insert([
+            'type' => $type,
+            'shop' => $shop,
+            'keyword' => $keyword,
+            'params' => $params,
+        ]);
+        return Utils::res_ok('ok');
+    }
+
+    public function showSearchLog(Request $request)
+    {
+        $where[] = ['status', 1];
+        if ($request->type){
+            $where[] = ['type', $request->type];
+        }
+        $list = SearchLogModel::where($where)->orderBy('id', 'desc')->get();
+        return Utils::res_ok('ok', $list);
+    }
+
+    public function delSearchLog(Request $request)
+    {
+        Utils::validator($request, [
+            'id' => 'required'
+        ]);
+        SearchLogModel::where('id', $request->id)->update(['status', 0]);
+        return Utils::res_ok('ok');
     }
 }
