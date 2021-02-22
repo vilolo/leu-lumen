@@ -370,7 +370,7 @@ class SsppController extends BaseAdminController
         }
         $list = SearchLogModel::where($where)->orderBy('id', 'desc')->get();
         foreach ($list as $k => $v){
-            $list[$k]['params'] = http_build_query($v['params']);
+            $list[$k]['params'] = http_build_query(json_decode($v['params'], JSON_UNESCAPED_UNICODE));
         }
         return Utils::res_ok('ok', $list);
     }
