@@ -46,4 +46,9 @@ class Utils
             throw new ApiException($msg,422);
         }
     }
+
+    public static function error_throw($msg, $code = 422)
+    {
+        throw new ApiException($msg, $code?$code:422);
+    }
 }

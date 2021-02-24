@@ -149,7 +149,8 @@ class SsppController extends BaseAdminController
             'total_ads_count' => $arr['total_ads_count'],
         ];
         if (!$arr['items']){
-            return Utils::res_error('数据未获取到:'.print_r($arr, true));
+            Utils::error_throw('获取失败');
+//            return Utils::res_error('数据未获取到:'.print_r($arr, true));
         }
         $goodsList = [];
         foreach ($arr['items'] as $k => $v){
