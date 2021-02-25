@@ -4,6 +4,7 @@
 namespace App\Console\Commands;
 
 
+use App\Models\CategoryModel;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
@@ -15,7 +16,61 @@ class TestCommand extends Command
     protected $signature = 'test';
 
     public function handle(){
-        $this->downCategory();
+//        $this->downCategory();
+//        $this->saveToDatabase();
+    }
+
+    private function saveToDatabase(){
+        $urlList = [
+//            'my' => 'https://haiyingshuju.com/category/shopee/Malaysia/data/',
+//            'tw' => 'https://haiyingshuju.com/category/shopee/Taiwan/data/',
+//            'th' => 'https://haiyingshuju.com/category/shopee/Thailand/data/',
+//            'sg' => 'https://haiyingshuju.com/category/shopee/Singapore/data/',
+        ];
+
+        foreach ($urlList as $k => $v){
+            //获取第一级
+            $res = $this->curlGet($v.'category.json', '');
+            $resArr = json_decode($res, JSON_UNESCAPED_UNICODE);
+            $inputData = [];
+            foreach ($resArr as $rv){
+                $inputData[] = [
+                    'shop' => $k,
+                    'cid' => $rv['cid'],
+                    'name' => $rv['cname'],
+                    'pid' => 0,
+                    'path' => 0,
+                ];
+            }
+            CategoryModel::insert($inputData);
+            $this->saveChildToDatabase($resArr, $k, $v, 0);
+        }
+    }
+
+    private function saveChildToDatabase($list, $shop, $url, $path){
+        foreach ($list as $v){
+            $newUrl = $url.$v['cid'].'/';
+            $res = $this->curlGet($newUrl.'category.json', '');
+            echo $newUrl.'category.json', PHP_EOL;
+            $resArr = json_decode($res, JSON_UNESCAPED_UNICODE);
+            $inputData = [];
+            $newPath = $path.','.$v['cid'];
+            if ($resArr){
+                foreach ($resArr as $rv){
+                    $inputData[] = [
+                        'shop' => $shop,
+                        'cid' => $rv['cid'],
+                        'name' => $rv['cname'],
+                        'pid' => $v['cid'],
+                        'path' => $newPath,
+                    ];
+                }
+                if ($inputData){
+                    CategoryModel::insert($inputData);
+                    $this->saveChildToDatabase($resArr, $shop, $newUrl, $newPath);
+                }
+            }
+        }
     }
 
     private function downCategory()

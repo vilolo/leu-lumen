@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\v1;
 
 
 use App\Http\Controllers\Admin\BaseAdminController;
+use App\Models\CategoryModel;
 use App\Models\GoodsCollectModel;
 use App\Models\MarketModel;
 use App\Models\SearchLogModel;
@@ -310,7 +311,7 @@ class SsppController extends BaseAdminController
         return Utils::res_ok();
     }
 
-    public function getCategory(Request $request)
+    public function getCategory_old(Request $request)
     {
         Utils::validator($request, [
             'shop' => 'required'
@@ -318,6 +319,19 @@ class SsppController extends BaseAdminController
 
         $data = file_get_contents('./'.$request->shop.'/category.json');
         $data = json_decode($data, JSON_UNESCAPED_UNICODE);
+        return Utils::res_ok('ok', $data);
+    }
+
+    public function getCategory(Request $request)
+    {
+        Utils::validator($request, [
+            'shop' => 'required'
+        ]);
+        $cid = $request->cid??0;
+        $data = CategoryModel::where([
+            ['shop', $request->shop],
+            ['pid', $cid],
+        ])->get()->toArray();
         return Utils::res_ok('ok', $data);
     }
 
@@ -383,5 +397,22 @@ class SsppController extends BaseAdminController
         ]);
         SearchLogModel::where('id', $request->id)->update(['status' => 0]);
         return Utils::res_ok('ok');
+    }
+
+    public function allCategory()
+    {
+        $res = CategoryModel::get()
+            ->select('cid', 'shop', 'name', 'pid')
+            ->toArray();
+        $list = [];
+        foreach ($res as $v){
+            if ($v['pid'] == 0){
+                if (!isset($list[$v['shop']])){
+                    $list[$v['shop']][$v['cid']] = $v;
+                }
+            }
+        }
+
+        return Utils::res_ok('ok', $list);
     }
 }

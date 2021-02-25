@@ -4,6 +4,7 @@
 namespace App\Console\Commands;
 
 
+use App\Models\CategoryModel;
 use App\Models\MarketModel;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
@@ -17,8 +18,92 @@ class MarketCommand extends Command
     protected $signature = 'market';
 
     public function handle(){
-        $this->market();
+//        $this->market();
+//        $this->fixData();
         echo 'ok';
+    }
+
+    private function market()
+    {
+        $shop = 'tw';
+//        $file = './public/'.$platform.'/category.json';
+//        $categoryData = file_get_contents($file);
+//        $arr = json_decode($categoryData, JSON_UNESCAPED_UNICODE);
+
+//        $arr = [
+//            ['cid' => 100],
+//            ['cid' => 1611],
+//            ['cid' => 70],
+//            ['cid' => 73],
+//            ['cid' => 75],
+//        ];
+
+//        $arr = CategoryModel::where([
+//            ['shop', $platform],
+//            ['pid', '>', 0],
+//        ])->select('cid')->get()->toArray();
+
+        $arr = CategoryModel::where([
+            ['category.shop', $shop],
+            ['category.pid', '>', 0],
+        ])->whereRaw(' m.id is null ')
+            ->leftJoin('market as m', 'm.cid', 'category.cid')
+            ->select('category.cid')->get()->toArray();
+
+        $this->saveData($arr, $shop);
+    }
+
+    private function fixData(){
+        $arr = MarketModel::whereRaw(' left(data, 24) <> \'{"show_disclaimer":false\' ')
+            ->select('id', 'cid', 'shop')->get()->toArray();
+
+        foreach ($arr as $v){
+            $cid = $v['cid'];
+            $str = '{"show_disclaimer":null';
+            $res = $this->getData($v['shop'], $cid);
+            if (substr($res,0, strlen($str)) == $str){
+                sleep(1);
+                $res = $this->getData($v['shop'], $cid);
+                if (substr($res,0, strlen($str)) == $str){
+                    sleep(1);
+                    $res = $this->getData($v['shop'], $cid);
+                }
+            }
+            MarketModel::where('id', $v['id'])->update(['data' => $res]);
+            echo $v['id'], '==';
+//            sleep(1);
+        }
+    }
+
+    private function saveData($arr, $shop){
+        $data = [];
+        foreach ($arr as $v){
+            $cid = $v['cid'];
+            $str = '{"show_disclaimer":false';
+            $res = $this->getData($shop, $cid);
+            if (substr($res,0, strlen($str)) != $str){
+                sleep(1);
+                $res = $this->getData($shop, $cid);
+                if (substr($res,0, strlen($str)) == $str){
+                    sleep(1);
+                    $res = $this->getData($shop, $cid);
+                }
+            }
+            $data[] = [
+                'shop' => $shop,
+                'cid' => $cid,
+                'data' => $res,
+            ];
+            if (count($data) >= 20){
+                MarketModel::insert($data);
+                $data = [];
+            }
+            echo 1;
+//            sleep(1);
+        }
+        if ($data){
+            MarketModel::insert($data);
+        }
     }
 
     const URL_LIST = [
@@ -53,34 +138,6 @@ class MarketCommand extends Command
         $url = self::URL_LIST[$platform]."api/v2/search_items/?".$param;
         $k = md5('55b03'.md5($param).'55b03');
         return $this->curlGet($url, $k);
-    }
-
-    private function market()
-    {
-        $platform = 'tw';
-//        $file = './public/'.$platform.'/category.json';
-//        $categoryData = file_get_contents($file);
-//        $arr = json_decode($categoryData, JSON_UNESCAPED_UNICODE);
-
-        $arr = [
-            ['cid' => 100],
-            ['cid' => 1611],
-            ['cid' => 70],
-            ['cid' => 73],
-            ['cid' => 75],
-        ];
-
-        foreach ($arr as $v){
-            $cid = $v['cid'];
-            $res = $this->getData($platform, $cid);
-            $data = [
-                'shop' => $platform,
-                'cid' => $cid,
-                'data' => $res,
-            ];
-            MarketModel::insert($data);
-            sleep(2);
-        }
     }
 
     public function curlGet($url, $k)
