@@ -401,18 +401,28 @@ class SsppController extends BaseAdminController
 
     public function allCategory()
     {
-        $res = CategoryModel::get()
-            ->select('cid', 'shop', 'name', 'pid')
-            ->toArray();
+        $res = CategoryModel::select('cid', 'shop', 'name', 'pid')
+            ->get()->toArray();
         $list = [];
-        foreach ($res as $v){
+        foreach ($res as $k => $v){
             if ($v['pid'] == 0){
-                if (!isset($list[$v['shop']])){
-                    $list[$v['shop']][$v['cid']] = $v;
+                //一级
+                $list[$v['shop']][$v['cid']] = $v;
+                unset($res[$k]);
+                foreach ($res as $k2 => $v2){
+                    if ($v['cid'] == $v2['pid']){
+                        $list[$v['shop']][$v['cid']]['child'][$k2] = $v2;
+                        unset($res[$k2]);
+                        foreach ($res as $k3 => $v3){
+                            if ($v2['cid'] == $v3['pid']){
+                                $list[$v['shop']][$v['cid']]['child'][$k2]['child'][$k3] = $v3;
+                                unset($res[$k3]);
+                            }
+                        }
+                    }
                 }
             }
         }
-
         return Utils::res_ok('ok', $list);
     }
 }
