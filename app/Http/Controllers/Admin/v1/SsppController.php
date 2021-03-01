@@ -402,6 +402,7 @@ class SsppController extends BaseAdminController
     public function allCategory()
     {
         $res = CategoryModel::select('cid', 'shop', 'name', 'pid')
+            ->whereIn('shop', ['my','tw','th','sg','br'])
             ->get()->toArray();
         $list = [];
         foreach ($res as $k => $v){
