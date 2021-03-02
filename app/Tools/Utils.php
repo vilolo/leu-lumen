@@ -18,7 +18,7 @@ class Utils
     {
         return [
             'code' => self::RES_OK,
-            'msg' => $msg,
+            'message' => $msg,
             'data' => $data
         ];
     }
