@@ -367,11 +367,12 @@ class SsppController extends BaseAdminController
         $type = $request->type??0;
         $shop = $request->shop??'';
         $keyword = $request->keyword??'';
+        $cname = $request->cname??'';
         $params = json_encode($request->toArray(), JSON_UNESCAPED_UNICODE);
         SearchLogModel::insert([
             'type' => $type,
             'shop' => $shop,
-            'keyword' => $keyword,
+            'keyword' => $keyword.','.$cname,
             'params' => $params,
         ]);
         return Utils::res_ok('ok');
