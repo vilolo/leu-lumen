@@ -177,6 +177,7 @@ class SsppController extends BaseAdminController
 
             //上架天数，平均每日浏览数，30天平均销量，总平均销量，30天利润，总利润，30天平均利润，总平均利润，平均点赞数
             $days = bcdiv(bcsub(time(), $v['ctime']), 86400, 2);
+            $days = $days>0?$days:1;
             $avgViewCount = bcdiv($v['view_count'], $days, 2);
             $avgSold = bcdiv($sold, 30, 2);
             $avgHistoricalSold = bcdiv($historicalSold, $days, 2);
