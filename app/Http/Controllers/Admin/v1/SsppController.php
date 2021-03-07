@@ -154,6 +154,9 @@ class SsppController extends BaseAdminController
 //            return Utils::res_error('数据未获取到:'.print_r($arr, true));
         }
         $goodsList = [];
+        $perViewProduct = 0;
+        $totalPerViewProduct = 0;
+        $perProductProfit = 0;
         foreach ($arr['items'] as $k => $v){
             //标题，链接，图片，最低价，最高价，30天销量，总销量，上架时间，评分，广告词，地方
             $name = $v['name'];
@@ -175,18 +178,21 @@ class SsppController extends BaseAdminController
             $ads_keyword = $v['ads_keyword'];
             $shop_location = $v['shop_location'];
 
-            //上架天数，平均每日浏览数，30天平均销量，总平均销量，30天利润，总利润，30天平均利润，总平均利润，平均点赞数
+            //上架天数，平均每日浏览数，30天平均销量，总平均销量，30天利润，总利润，30天平均利润，总平均利润，平均点赞数，平均每商品每天浏览量
             $days = bcdiv(bcsub(time(), $v['ctime']), 86400, 2);
             $days = $days>0?$days:1;
             $avgViewCount = bcdiv($v['view_count'], $days, 2);
+            $perViewProduct += $avgViewCount;
             $avgSold = bcdiv($sold, 30, 2);
             $avgHistoricalSold = bcdiv($historicalSold, $days, 2);
             $soldProfit = bcmul(bcmul($sold, $price, 2), 0.1, 2);
             $soldHistoricalProfit = bcmul(bcmul($historicalSold, $price, 2), 0.1, 2);
             $avgSoldProfit = bcdiv($soldProfit, 30, 2);
             $avgSoldHistoricalProfit = bcdiv($soldHistoricalProfit, $days, 2);
+            $perProductProfit += $avgSoldHistoricalProfit;
             $avgLike = bcdiv($v['liked_count'], $days, 2);
-
+            $profitPerView = bcdiv($soldHistoricalProfit,$v['view_count'],3);
+            $totalPerViewProduct += $profitPerView;
             $goodsList[] = [
                 'name' => $name,
                 'images' => $imgList,
@@ -207,12 +213,17 @@ class SsppController extends BaseAdminController
                 'avgLike' => $avgLike,
                 'adsKeyword' => $ads_keyword,
                 'shopLocation' => $shop_location,
+                'profitPerView' => $profitPerView,
             ];
 
         }
         return [
             'goodsList' => $goodsList,
-            'info' => $data
+            'info' => array_merge($data, [
+                'perViewProduct' => bcdiv($perViewProduct, count($arr['items']), 2),
+                'avgProfitPerView' => bcdiv($totalPerViewProduct, count($arr['items']), 2),
+                'perProductProfit' => bcdiv($perProductProfit, count($arr['items']), 2)
+            ])
         ];
     }
 
