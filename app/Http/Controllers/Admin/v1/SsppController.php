@@ -126,9 +126,10 @@ class SsppController extends BaseAdminController
         if ($request->type == 4){
             $goodsList = $this->collectList();
             $list = [];
-            foreach ($goodsList as $k => $v){
-                $temp = json_decode($v, JSON_UNESCAPED_UNICODE);
-                $temp['did'] = $k;
+            foreach ($goodsList as $v){
+                $temp = json_decode($v['goods_info'], JSON_UNESCAPED_UNICODE);
+                $temp['did'] = $v['id'];
+                $temp['name'] = "【{$v['shop']}】".$temp['name'];
                 $list[] = $temp;
             }
             $data = [
@@ -353,7 +354,8 @@ class SsppController extends BaseAdminController
             'row' => 'required'
         ]);
         GoodsCollectModel::insert([
-            'goods_info' => $request->row
+            'goods_info' => $request->row,
+            'shop' => $request->shop??''
         ]);
         return Utils::res_ok('ok');
     }
@@ -371,7 +373,9 @@ class SsppController extends BaseAdminController
     {
         return GoodsCollectModel::where([
             'status' => 1
-        ])->orderBy('id', 'desc')->pluck('goods_info', 'id');
+        ])
+            ->select('shop', 'goods_info', 'id')
+            ->orderBy('id', 'desc')->get();
     }
 
     public function saveSearchLog(Request $request)
