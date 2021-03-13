@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CategoryAnalysisCommand;
 use App\Console\Commands\MarketCommand;
 use App\Console\Commands\TestCommand;
 use Illuminate\Console\Scheduling\Schedule;
@@ -17,6 +18,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         TestCommand::class,
         MarketCommand::class,
+        CategoryAnalysisCommand::class,
     ];
 
     /**

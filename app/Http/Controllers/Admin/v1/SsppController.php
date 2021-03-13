@@ -221,9 +221,14 @@ class SsppController extends BaseAdminController
         return [
             'goodsList' => $goodsList,
             'info' => array_merge($data, [
+                //热度：商品每日平均浏览量 = （累加（view_count/days））/总商品数
                 'perViewProduct' => bcdiv($perViewProduct, count($arr['items']), 2),
+
+                //收益：商品每日平均收益 = （累加（（历史总销量*单价）*0.1）/days）/总商品数
+                'perProductProfit' => bcdiv($perProductProfit, count($arr['items']), 2),
+
+                //转化：商品总平均浏览收益 = （累加（（（历史总销量*单价）*0.1）/总浏览量））/总商品数
                 'avgProfitPerView' => bcdiv($totalPerViewProduct, count($arr['items']), 2),
-                'perProductProfit' => bcdiv($perProductProfit, count($arr['items']), 2)
             ])
         ];
     }

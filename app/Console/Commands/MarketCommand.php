@@ -18,7 +18,7 @@ class MarketCommand extends Command
     protected $signature = 'market';
 
     public function handle(){
-        $this->market();
+//        $this->market();
 //        $this->fixData();
 
 //        $this->saveBrCategory();
