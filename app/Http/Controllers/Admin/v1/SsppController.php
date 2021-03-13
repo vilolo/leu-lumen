@@ -158,6 +158,7 @@ class SsppController extends BaseAdminController
         $perViewProduct = 0;
         $totalPerViewProduct = 0;
         $perProductProfit = 0;
+        $totalAvgLike = 0;
         foreach ($arr['items'] as $k => $v){
             //标题，链接，图片，最低价，最高价，30天销量，总销量，上架时间，评分，广告词，地方
             $name = $v['name'];
@@ -192,6 +193,7 @@ class SsppController extends BaseAdminController
             $avgSoldHistoricalProfit = bcdiv($soldHistoricalProfit, $days, 2);
             $perProductProfit += $avgSoldHistoricalProfit;
             $avgLike = bcdiv($v['liked_count'], $days, 2);
+            $totalAvgLike += $avgLike;
             $profitPerView = bcdiv($soldHistoricalProfit,($v['view_count']>0?$v['view_count']:1),3);
             $totalPerViewProduct += $profitPerView;
             $goodsList[] = [
@@ -218,17 +220,21 @@ class SsppController extends BaseAdminController
             ];
 
         }
+        $c = count($arr['items']);
         return [
             'goodsList' => $goodsList,
             'info' => array_merge($data, [
                 //热度：商品每日平均浏览量 = （累加（view_count/days））/总商品数
-                'perViewProduct' => bcdiv($perViewProduct, count($arr['items']), 2),
+                'perViewProduct' => bcdiv($perViewProduct, $c, 2),
 
                 //收益：商品每日平均收益 = （累加（（历史总销量*单价）*0.1）/days）/总商品数
-                'perProductProfit' => bcdiv($perProductProfit, count($arr['items']), 2),
+                'perProductProfit' => bcdiv($perProductProfit, $c, 2),
 
                 //转化：商品总平均浏览收益 = （累加（（（历史总销量*单价）*0.1）/总浏览量））/总商品数
-                'avgProfitPerView' => bcdiv($totalPerViewProduct, count($arr['items']), 2),
+                'avgProfitPerView' => bcdiv($totalPerViewProduct, $c, 2),
+
+                //热度：平均商品收藏
+                'avgAvgLike' => bcdiv($totalAvgLike, $c, 2),
             ])
         ];
     }
