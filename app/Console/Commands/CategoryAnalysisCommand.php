@@ -5,8 +5,6 @@ namespace App\Console\Commands;
 
 
 use App\Models\CategoryAnalysisModel;
-use App\Models\CategoryModel;
-use App\Models\MarketModel;
 use Illuminate\Console\Command;
 
 class CategoryAnalysisCommand extends Command
@@ -16,16 +14,27 @@ class CategoryAnalysisCommand extends Command
     public function handle(){
 //        $list = MarketModel::where('id', '<', 200)->get();
 
-        $shop = 'my';
+        $shop = 'br';
         $location = '-2';   //-1本地，-2oversea
-        $list = CategoryModel::where('shop', $shop)
-            ->select('cid', 'name')
+        $list = CategoryAnalysisModel::where([
+            ['shop', $shop],
+            ['location', $location],
+        ])
+            ->whereRaw('total_goods is null')
+            ->select('id', 'cid')
             ->get();
+
+//        $list = CategoryAnalysisModel::where([
+//            ['total_goods', 0],
+//            ['shop', $shop],
+//            ['location', $location],
+//        ])
+//            ->select('id', 'cid')
+//            ->get();
 
         foreach ($list as $citem){
             $str = '{"show_disclaimer":false';
             $cid = $citem['cid'];
-            $cname = $citem['name'];
             $res = $this->getData($shop, $cid, $location);
             if (substr($res,0, strlen($str)) != $str){
                 sleep(1);
@@ -77,11 +86,7 @@ class CategoryAnalysisCommand extends Command
 //                'avgAvgLike' => bcdiv($totalAvgLike, $c, 2),
 //            ];
 
-            CategoryAnalysisModel::insert([
-                'shop' => $shop,
-                'cid' => $cid,
-                'cname' => $cname,
-                'location' => $location,
+            CategoryAnalysisModel::where('id', $citem->id)->update([
                 'total_goods' => $arr['total_count']??0,
                 'avg_day_profit' => bcdiv($perProductProfit, $c, 2),
                 'avg_day_view' => bcdiv($perViewProduct, $c, 2),
