@@ -196,8 +196,20 @@ class SsppController extends BaseAdminController
             $totalAvgLike += $avgLike;
             $profitPerView = bcdiv($soldHistoricalProfit,($v['view_count']>0?$v['view_count']:1),3);
             $totalPerViewProduct += $profitPerView;
+
+            //分类
+            $category = CategoryModel::where('cid', $v['catid'])->first();
+            if (filled($category)){
+                $ids = $category['path'].','.$v['catid'];
+                $cpath = CategoryModel::whereRaw(" cid in ({$ids}) ")
+                    ->orderByRaw(" FIELD(cid,{$ids}) ")
+                    ->select(DB::raw(' group_concat(name," || ") as name'))
+                    ->first();
+            }
+
             $goodsList[] = [
                 'name' => $name,
+                'cname' => $cpath['name']??'',
                 'images' => $imgList,
                 'url' => $url,
                 'price' => $price,
