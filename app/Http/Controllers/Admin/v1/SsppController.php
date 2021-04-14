@@ -236,7 +236,7 @@ class SsppController extends BaseAdminController
                 'shopLocation' => $shop_location,
                 'profitPerView' => $profitPerView,
                 'shopInfo' => isset($shopInfo['data']['account']['username'])?
-                    $shopInfo['data']['account']['username'].'**'.$shopInfo['data']['name'].'**'.date('Y-m-d', $shopInfo['data']['ctime']):'--',
+                    $shopInfo['data']['account']['username'].'*'.$shopInfo['data']['name'].'*'.date('Y-m-d', $shopInfo['data']['ctime']):'--',
             ];
 
         }
