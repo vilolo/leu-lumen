@@ -84,12 +84,14 @@ class SsppController extends BaseAdminController
             $param = http_build_query($data);
             $url = self::URL_LIST[$this->platform]."api/v2/search_items/?".$param;
         }else{
-            $url = self::URL_LIST[$this->platform]."api/v4/shop/get_shop_detail?username=".$keyword;
-            $res = $this->curlGet($url, md5('55b03'.md5("username=".$keyword).'55b03'));
-            $res = json_decode($res, true);
-            sleep(1);
+            if ($type == 2){
+                $url = self::URL_LIST[$this->platform]."api/v4/shop/get_shop_detail?username=".$keyword;
+                $res = $this->curlGet($url, md5('55b03'.md5("username=".$keyword).'55b03'));
+                $res = json_decode($res, true);
+                sleep(1);
+                $data['match_id'] = $res['data']['shopid'];
+            }
             unset($data['keyword']);
-            $data['match_id'] = $res['data']['shopid'];
             $param = http_build_query($data);
             $url = self::URL_LIST[$this->platform]."api/v2/search_items/?".$param;
         }
@@ -208,10 +210,10 @@ class SsppController extends BaseAdminController
             }
 
             //店铺名
-            $param = 'shopid='.$v['shopid'];
-            $k = md5('55b03'.md5($param).'55b03');
-            $shopInfo = $this->curlGet(self::URL_LIST[$shop].'api/v4/product/get_shop_info?'.$param, md5('55b03'.md5($k).'55b03'));
-            $shopInfo = json_decode($shopInfo, true);
+//            $param = 'shopid='.$v['shopid'];
+//            $k = md5('55b03'.md5($param).'55b03');
+//            $shopInfo = $this->curlGet(self::URL_LIST[$shop].'api/v4/product/get_shop_info?'.$param, md5('55b03'.md5($k).'55b03'));
+//            $shopInfo = json_decode($shopInfo, true);
 
             $goodsList[] = [
                 'name' => $name,
@@ -235,8 +237,9 @@ class SsppController extends BaseAdminController
                 'adsKeyword' => $ads_keyword,
                 'shopLocation' => $shop_location,
                 'profitPerView' => $profitPerView,
-                'shopInfo' => isset($shopInfo['data']['account']['username'])?
-                    $shopInfo['data']['account']['username'].'*'.$shopInfo['data']['name'].'*'.date('Y-m-d', $shopInfo['data']['ctime']):'--',
+//                'shopInfo' => isset($shopInfo['data']['account']['username'])?
+//                    $shopInfo['data']['account']['username'].'*'.$shopInfo['data']['name'].'*'.date('Y-m-d', $shopInfo['data']['ctime']):'--',
+                'shopid' => $v['shopid']
             ];
 
         }
