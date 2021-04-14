@@ -1,0 +1,147 @@
+{
+    "message": "success",
+    "code": 0,
+    "data": {
+        "list": [
+            [
+                {
+                    "display_name": "手機遊戲周邊",
+                    "name": "Mobile Game Accessories",
+                    "has_active_children": true,
+                    "low_stock_value": 0,
+                    "has_children": true,
+                    "is_default": 0,
+                    "parent_id": 14639,
+                    "enable_size_chart": false,
+                    "id": 14642
+                },
+                {
+                    "display_name": "Game Triggers",
+                    "name": "Game Triggers",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 14642,
+                    "enable_size_chart": false,
+                    "id": 21667
+                },
+                {
+                    "display_name": "Joystick",
+                    "name": "Joystick",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 14642,
+                    "enable_size_chart": false,
+                    "id": 21668
+                }
+            ],
+            [
+                {
+                    "display_name": "掌上型主機周邊",
+                    "name": "Handheld Accessories",
+                    "has_active_children": true,
+                    "low_stock_value": 0,
+                    "has_children": true,
+                    "is_default": 0,
+                    "parent_id": 21678,
+                    "enable_size_chart": false,
+                    "id": 21686
+                },
+                {
+                    "display_name": "3DS系列周邊",
+                    "name": "3DS",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 21686,
+                    "enable_size_chart": false,
+                    "id": 21687
+                },
+                {
+                    "display_name": "PS Vita周邊",
+                    "name": "PS Vita",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 21686,
+                    "enable_size_chart": false,
+                    "id": 21688
+                },
+                {
+                    "display_name": "PSP周邊",
+                    "name": "PSP",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 21686,
+                    "enable_size_chart": false,
+                    "id": 21689
+                },
+                {
+                    "display_name": "Switch周邊",
+                    "name": "Switch",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 21686,
+                    "enable_size_chart": false,
+                    "id": 21690
+                }
+            ],
+            [
+                {
+                    "display_name": "主機周邊",
+                    "name": "Console Accessories",
+                    "has_active_children": true,
+                    "low_stock_value": 0,
+                    "has_children": true,
+                    "is_default": 0,
+                    "parent_id": 21669,
+                    "enable_size_chart": false,
+                    "id": 21674
+                },
+                {
+                    "display_name": "Wii周邊",
+                    "name": "Wii",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 21674,
+                    "enable_size_chart": false,
+                    "id": 21675
+                },
+                {
+                    "display_name": "XBOX周邊",
+                    "name": "XBOX",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 21674,
+                    "enable_size_chart": false,
+                    "id": 21676
+                },
+                {
+                    "display_name": "PS周邊",
+                    "name": "PS",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 21674,
+                    "enable_size_chart": false,
+                    "id": 21677
+                }
+            ]
+        ]
+    },
+    "user_message": "success"
+}

@@ -6,6 +6,7 @@ namespace App\Console\Commands;
 
 use App\Models\CategoryModel;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class TestCommand extends Command
 {
@@ -18,6 +19,66 @@ class TestCommand extends Command
     public function handle(){
 //        $this->downCategory();
 //        $this->saveToDatabase();
+        $this->saveCategory();
+    }
+
+    public function saveCategory(){
+        $shop = 'sg';
+        $file = base_path().'/public/data/category_'.$shop.'.json';
+        $res = file_get_contents($file);
+        $list = json_decode($res, true)['data']['list'];
+        $data = [];
+        foreach ($list as $k => $v){
+            $path = 0;
+            if ($v['parent_id'] == 0){
+                $data[$v['id']] = [
+                    'shop' => $shop,
+                    'cid' => $v['id'],
+                    'source_name' => $v['display_name'],
+                    'pid' => 0,
+                    'path' => $path,
+                ];
+                unset($list[$k]);
+                $path .= ','.$v['id'];
+                foreach ($list as $k2 => $v2){
+                    if ($v2['parent_id'] == $v['id']){
+                        $data[$v2['id']] = [
+                            'shop' => $shop,
+                            'cid' => $v2['id'],
+                            'source_name' => $v2['display_name'],
+                            'pid' => $v2['parent_id'],
+                            'path' => $path,
+                        ];
+                        unset($list[$k2]);
+                        foreach ($list as $k3 => $v3){
+                            if ($v3['parent_id'] == $v2['id']){
+                                $data[$v3['id']] = [
+                                    'shop' => $shop,
+                                    'cid' => $v3['id'],
+                                    'source_name' => $v3['display_name'],
+                                    'pid' => $v3['parent_id'],
+                                    'path' => $path.','.$v2['id'],
+                                ];
+                                unset($list[$k3]);
+                                foreach ($list as $k4 => $v4){
+                                    if ($v4['parent_id'] == $v3['id']){
+                                        $data[$v4['id']] = [
+                                            'shop' => $shop,
+                                            'cid' => $v4['id'],
+                                            'source_name' => $v4['display_name'],
+                                            'pid' => $v4['parent_id'],
+                                            'path' => $path.','.$v2['id'].','.$v3['id'],
+                                        ];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        DB::table('category_new')->insert($data);
+        echo 'ok';
     }
 
     private function saveToDatabase(){

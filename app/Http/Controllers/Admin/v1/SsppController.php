@@ -139,12 +139,12 @@ class SsppController extends BaseAdminController
         }else{
             $res = $this->getData($request);
             $arr = json_decode($res, true);
-            $data = $this->assignData($arr);
+            $data = $this->assignData($arr, $request->shop);
         }
         return Utils::res_ok('ok',$data);
     }
 
-    private function assignData($arr)
+    private function assignData($arr, $shop)
     {
         $data = [
             'total_count' => number_format($arr['total_count']),
@@ -207,6 +207,12 @@ class SsppController extends BaseAdminController
                     ->first();
             }
 
+            //店铺名
+            $param = 'shopid='.$v['shopid'];
+            $k = md5('55b03'.md5($param).'55b03');
+            $shopInfo = $this->curlGet(self::URL_LIST[$shop].'api/v4/product/get_shop_info?'.$param, md5('55b03'.md5($k).'55b03'));
+            $shopInfo = json_decode($shopInfo, true);
+
             $goodsList[] = [
                 'name' => $name,
                 'cname' => $cpath['name']??'',
@@ -229,6 +235,8 @@ class SsppController extends BaseAdminController
                 'adsKeyword' => $ads_keyword,
                 'shopLocation' => $shop_location,
                 'profitPerView' => $profitPerView,
+                'shopInfo' => isset($shopInfo['data']['account']['username'])?
+                    $shopInfo['data']['account']['username'].'**'.$shopInfo['data']['name'].'**'.date('Y-m-d', $shopInfo['data']['ctime']):'--',
             ];
 
         }

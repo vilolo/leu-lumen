@@ -1,0 +1,595 @@
+{
+    "message": "success",
+    "code": 0,
+    "data": {
+        "list": [
+            [
+                {
+                    "display_name": "Bedroom Furniture",
+                    "name": "Bedroom Furniture",
+                    "has_active_children": true,
+                    "low_stock_value": 0,
+                    "has_children": true,
+                    "is_default": 0,
+                    "parent_id": 6949,
+                    "enable_size_chart": false,
+                    "id": 6951
+                },
+                {
+                    "display_name": "Mattress",
+                    "name": "Mattress",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6951,
+                    "enable_size_chart": false,
+                    "id": 24835
+                },
+                {
+                    "display_name": "Bed",
+                    "name": "Bed",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6951,
+                    "enable_size_chart": false,
+                    "id": 24836
+                },
+                {
+                    "display_name": "Bedside Table",
+                    "name": "Bedside Table",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6951,
+                    "enable_size_chart": false,
+                    "id": 24837
+                },
+                {
+                    "display_name": "Wardrobe",
+                    "name": "Wardrobe",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6951,
+                    "enable_size_chart": false,
+                    "id": 24839
+                },
+                {
+                    "display_name": "Dressing Table",
+                    "name": "Dressing Table",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6951,
+                    "enable_size_chart": false,
+                    "id": 24841
+                },
+                {
+                    "display_name": "Mirrors",
+                    "name": "Mirrors",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6951,
+                    "enable_size_chart": false,
+                    "id": 24843
+                },
+                {
+                    "display_name": "Others.",
+                    "name": "Others.",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6951,
+                    "enable_size_chart": false,
+                    "id": 24844
+                }
+            ],
+            [
+                {
+                    "display_name": "Office Furniture",
+                    "name": "Office Furniture",
+                    "has_active_children": true,
+                    "low_stock_value": 0,
+                    "has_children": true,
+                    "is_default": 0,
+                    "parent_id": 6949,
+                    "enable_size_chart": false,
+                    "id": 6953
+                },
+                {
+                    "display_name": "Office Cabinet",
+                    "name": "Office Cabinet",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6953,
+                    "enable_size_chart": false,
+                    "id": 24845
+                },
+                {
+                    "display_name": "Office Chair",
+                    "name": "Office Chair",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6953,
+                    "enable_size_chart": false,
+                    "id": 24846
+                },
+                {
+                    "display_name": "Office Table",
+                    "name": "Office Table",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6953,
+                    "enable_size_chart": false,
+                    "id": 24847
+                },
+                {
+                    "display_name": "Blackboard",
+                    "name": "Blackboard",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6953,
+                    "enable_size_chart": false,
+                    "id": 24848
+                },
+                {
+                    "display_name": "Others.",
+                    "name": "Others.",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6953,
+                    "enable_size_chart": false,
+                    "id": 24849
+                }
+            ],
+            [
+                {
+                    "display_name": "Dining & Kitchen Furniture",
+                    "name": "Dining & Kitchen Furniture",
+                    "has_active_children": true,
+                    "low_stock_value": 0,
+                    "has_children": true,
+                    "is_default": 0,
+                    "parent_id": 6949,
+                    "enable_size_chart": false,
+                    "id": 6952
+                },
+                {
+                    "display_name": "Dining Table",
+                    "name": "Dining Table",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6952,
+                    "enable_size_chart": false,
+                    "id": 24850
+                },
+                {
+                    "display_name": "Dining Chair",
+                    "name": "Dining Chair",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6952,
+                    "enable_size_chart": false,
+                    "id": 24851
+                },
+                {
+                    "display_name": "Kitchen Cabinet",
+                    "name": "Kitchen Cabinet",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6952,
+                    "enable_size_chart": false,
+                    "id": 24852
+                },
+                {
+                    "display_name": "Wine Cabinet",
+                    "name": "Wine Cabinet",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6952,
+                    "enable_size_chart": false,
+                    "id": 24853
+                },
+                {
+                    "display_name": "Wine Rack",
+                    "name": "Wine Rack",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6952,
+                    "enable_size_chart": false,
+                    "id": 24854
+                },
+                {
+                    "display_name": "Others.",
+                    "name": "Others.",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 6952,
+                    "enable_size_chart": false,
+                    "id": 24855
+                }
+            ],
+            [
+                {
+                    "display_name": "Living Room Furniture",
+                    "name": "Living Room Furniture",
+                    "has_active_children": true,
+                    "low_stock_value": 0,
+                    "has_children": true,
+                    "is_default": 0,
+                    "parent_id": 6949,
+                    "enable_size_chart": false,
+                    "id": 15212
+                },
+                {
+                    "display_name": "TV Cabinet",
+                    "name": "TV Cabinet",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15212,
+                    "enable_size_chart": false,
+                    "id": 24856
+                },
+                {
+                    "display_name": "Corner Cabinet",
+                    "name": "Corner Cabinet",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15212,
+                    "enable_size_chart": false,
+                    "id": 24857
+                },
+                {
+                    "display_name": "Shoe Rack & Cabinet",
+                    "name": "Shoe Rack & Cabinet",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15212,
+                    "enable_size_chart": false,
+                    "id": 24858
+                },
+                {
+                    "display_name": "Coffee Table",
+                    "name": "Coffee Table",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15212,
+                    "enable_size_chart": false,
+                    "id": 24859
+                },
+                {
+                    "display_name": "Rack & Shelf",
+                    "name": "Rack & Shelf",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15212,
+                    "enable_size_chart": false,
+                    "id": 24860
+                },
+                {
+                    "display_name": "Bookshelf",
+                    "name": "Bookshelf",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15212,
+                    "enable_size_chart": false,
+                    "id": 24861
+                },
+                {
+                    "display_name": "Coat Rack",
+                    "name": "Coat Rack",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15212,
+                    "enable_size_chart": false,
+                    "id": 24862
+                },
+                {
+                    "display_name": "Study Table",
+                    "name": "Study Table",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15212,
+                    "enable_size_chart": false,
+                    "id": 24864
+                },
+                {
+                    "display_name": "Folding Table",
+                    "name": "Folding Table",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15212,
+                    "enable_size_chart": false,
+                    "id": 24866
+                },
+                {
+                    "display_name": "Stools",
+                    "name": "Stools",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15212,
+                    "enable_size_chart": false,
+                    "id": 24868
+                },
+                {
+                    "display_name": "Chairs",
+                    "name": "Chairs",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15212,
+                    "enable_size_chart": false,
+                    "id": 24870
+                },
+                {
+                    "display_name": "Sofa",
+                    "name": "Sofa",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15212,
+                    "enable_size_chart": false,
+                    "id": 24872
+                },
+                {
+                    "display_name": "Others.",
+                    "name": "Others.",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15212,
+                    "enable_size_chart": false,
+                    "id": 24873
+                }
+            ],
+            [
+                {
+                    "display_name": "Outdoor Furniture",
+                    "name": "Outdoor Furniture",
+                    "has_active_children": true,
+                    "low_stock_value": 0,
+                    "has_children": true,
+                    "is_default": 0,
+                    "parent_id": 6949,
+                    "enable_size_chart": false,
+                    "id": 15213
+                },
+                {
+                    "display_name": "Outdoor Table",
+                    "name": "Outdoor Table",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15213,
+                    "enable_size_chart": false,
+                    "id": 24863
+                },
+                {
+                    "display_name": "Outdoor Chair",
+                    "name": "Outdoor Chair",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15213,
+                    "enable_size_chart": false,
+                    "id": 24865
+                },
+                {
+                    "display_name": "Outdoor Bed",
+                    "name": "Outdoor Bed",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15213,
+                    "enable_size_chart": false,
+                    "id": 24867
+                },
+                {
+                    "display_name": "Outdoor Swing",
+                    "name": "Outdoor Swing",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15213,
+                    "enable_size_chart": false,
+                    "id": 24869
+                },
+                {
+                    "display_name": "Others.",
+                    "name": "Others.",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 15213,
+                    "enable_size_chart": false,
+                    "id": 24871
+                }
+            ],
+            [
+                {
+                    "display_name": "Meat",
+                    "name": "Meat",
+                    "has_active_children": true,
+                    "low_stock_value": 0,
+                    "has_children": true,
+                    "is_default": 0,
+                    "parent_id": 24986,
+                    "enable_size_chart": false,
+                    "id": 24995
+                },
+                {
+                    "display_name": "Beef",
+                    "name": "Beef",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 24995,
+                    "enable_size_chart": false,
+                    "id": 25001
+                },
+                {
+                    "display_name": "Poultry",
+                    "name": "Poultry",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 24995,
+                    "enable_size_chart": false,
+                    "id": 25002
+                },
+                {
+                    "display_name": "Pork",
+                    "name": "Pork",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 24995,
+                    "enable_size_chart": false,
+                    "id": 25003
+                },
+                {
+                    "display_name": "Lamb",
+                    "name": "Lamb & Mutton",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 24995,
+                    "enable_size_chart": false,
+                    "id": 25004
+                },
+                {
+                    "display_name": "Others",
+                    "name": "Others.",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 24995,
+                    "enable_size_chart": false,
+                    "id": 25006
+                }
+            ],
+            [
+                {
+                    "display_name": "Seafood",
+                    "name": "Seafood",
+                    "has_active_children": true,
+                    "low_stock_value": 0,
+                    "has_children": true,
+                    "is_default": 0,
+                    "parent_id": 24986,
+                    "enable_size_chart": false,
+                    "id": 24996
+                },
+                {
+                    "display_name": "Prawn",
+                    "name": "Prawn",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 24996,
+                    "enable_size_chart": false,
+                    "id": 25008
+                },
+                {
+                    "display_name": "Others",
+                    "name": "Others.",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 24996,
+                    "enable_size_chart": false,
+                    "id": 25010
+                },
+                {
+                    "display_name": "Fish",
+                    "name": "Fish",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 24996,
+                    "enable_size_chart": false,
+                    "id": 25007
+                },
+                {
+                    "display_name": "Crab",
+                    "name": "Crab",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 24996,
+                    "enable_size_chart": false,
+                    "id": 25009
+                }
+            ]
+        ]
+    },
+    "user_message": "success"
+}
