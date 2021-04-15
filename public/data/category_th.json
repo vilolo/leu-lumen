@@ -24455,7 +24455,333 @@
                 "parent_id": 13570,
                 "enable_size_chart": false,
                 "id": 13571
-            }
+            },
+			
+			{
+                    "display_name": "70 นิ้วขึ้นไป",
+                    "name": "70 inches & above",
+                    "has_active_children": true,
+                    "low_stock_value": 0,
+                    "has_children": true,
+                    "is_default": 0,
+                    "parent_id": 14000,
+                    "enable_size_chart": false,
+                    "id": 22020
+                },
+                {
+                    "display_name": "Other TV",
+                    "name": "Other TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 1,
+                    "parent_id": 22020,
+                    "enable_size_chart": false,
+                    "id": 22040
+                },
+                {
+                    "display_name": "Smart TV",
+                    "name": "Smart TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 22020,
+                    "enable_size_chart": false,
+                    "id": 22038
+                },
+                {
+                    "display_name": "LED TV",
+                    "name": "LED TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 22020,
+                    "enable_size_chart": false,
+                    "id": 22039
+                },
+			
+			{
+                    "display_name": "60-69 นิ้ว",
+                    "name": "60-69 inches",
+                    "has_active_children": true,
+                    "low_stock_value": 0,
+                    "has_children": true,
+                    "is_default": 0,
+                    "parent_id": 14000,
+                    "enable_size_chart": false,
+                    "id": 22019
+                },
+                {
+                    "display_name": "Smart TV",
+                    "name": "Smart TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 22019,
+                    "enable_size_chart": false,
+                    "id": 22033
+                },
+                {
+                    "display_name": "LED TV",
+                    "name": "LED TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 22019,
+                    "enable_size_chart": false,
+                    "id": 22034
+                },
+                {
+                    "display_name": "Other TV",
+                    "name": "Other TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 1,
+                    "parent_id": 22019,
+                    "enable_size_chart": false,
+                    "id": 22035
+                },
+				
+			{
+                    "display_name": "50-59 นิ้ว",
+                    "name": "50-59 inches",
+                    "has_active_children": true,
+                    "low_stock_value": 0,
+                    "has_children": true,
+                    "is_default": 0,
+                    "parent_id": 14000,
+                    "enable_size_chart": false,
+                    "id": 22018
+                },
+                {
+                    "display_name": "Other TV",
+                    "name": "Other TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 1,
+                    "parent_id": 22018,
+                    "enable_size_chart": false,
+                    "id": 22032
+                },
+                {
+                    "display_name": "Smart TV",
+                    "name": "Smart TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 22018,
+                    "enable_size_chart": false,
+                    "id": 22030
+                },
+                {
+                    "display_name": "LED TV",
+                    "name": "LED TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 22018,
+                    "enable_size_chart": false,
+                    "id": 22031
+                },
+				
+			{
+                    "display_name": "44-49 นิ้ว",
+                    "name": "44-49 inches",
+                    "has_active_children": true,
+                    "low_stock_value": 0,
+                    "has_children": true,
+                    "is_default": 0,
+                    "parent_id": 14000,
+                    "enable_size_chart": false,
+                    "id": 22017
+                },
+                {
+                    "display_name": "Smart TV",
+                    "name": "Smart TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 22017,
+                    "enable_size_chart": false,
+                    "id": 22027
+                },
+                {
+                    "display_name": "LED TV",
+                    "name": "LED TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 22017,
+                    "enable_size_chart": false,
+                    "id": 22028
+                },
+                {
+                    "display_name": "Other TV",
+                    "name": "Other TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 1,
+                    "parent_id": 22017,
+                    "enable_size_chart": false,
+                    "id": 22029
+                },
+				
+			{
+                    "display_name": "33-43 นิ้ว",
+                    "name": "33-43 inches",
+                    "has_active_children": true,
+                    "low_stock_value": 0,
+                    "has_children": true,
+                    "is_default": 0,
+                    "parent_id": 14000,
+                    "enable_size_chart": false,
+                    "id": 22016
+                },
+                {
+                    "display_name": "Other TV",
+                    "name": "Other TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 1,
+                    "parent_id": 22016,
+                    "enable_size_chart": false,
+                    "id": 22026
+                },
+                {
+                    "display_name": "LED TV",
+                    "name": "LED TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 22016,
+                    "enable_size_chart": false,
+                    "id": 22025
+                },
+                {
+                    "display_name": "Smart TV",
+                    "name": "Smart TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 22016,
+                    "enable_size_chart": false,
+                    "id": 22024
+                },
+				
+			{
+                    "display_name": "32 นิ้วหรือน้อยกว่า",
+                    "name": "32 inches & below",
+                    "has_active_children": true,
+                    "low_stock_value": 0,
+                    "has_children": true,
+                    "is_default": 1,
+                    "parent_id": 14000,
+                    "enable_size_chart": false,
+                    "id": 22015
+                },
+                {
+                    "display_name": "LED TV",
+                    "name": "LED TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 22015,
+                    "enable_size_chart": false,
+                    "id": 22022
+                },
+                {
+                    "display_name": "Other TV",
+                    "name": "Other TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 1,
+                    "parent_id": 22015,
+                    "enable_size_chart": false,
+                    "id": 22023
+                },
+                {
+                    "display_name": "Smart TV",
+                    "name": "Smart TV",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 22015,
+                    "enable_size_chart": false,
+                    "id": 22021
+                },
+				
+			{
+                    "display_name": "DAC / AMP",
+                    "name": "DAC / AMP",
+                    "has_active_children": true,
+                    "low_stock_value": 0,
+                    "has_children": true,
+                    "is_default": 0,
+                    "parent_id": 24963,
+                    "enable_size_chart": false,
+                    "id": 24970
+                },
+                {
+                    "display_name": "DAC-AMP",
+                    "name": "DAC-AMP",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 24970,
+                    "enable_size_chart": false,
+                    "id": 24975
+                },
+                {
+                    "display_name": "DAC",
+                    "name": "DAC",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 24970,
+                    "enable_size_chart": false,
+                    "id": 24976
+                },
+                {
+                    "display_name": "Amplifier",
+                    "name": "Amplifier",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 24970,
+                    "enable_size_chart": false,
+                    "id": 24977
+                },
+                {
+                    "display_name": "AV Receiver",
+                    "name": "AV Receiver",
+                    "has_active_children": false,
+                    "low_stock_value": 0,
+                    "has_children": false,
+                    "is_default": 0,
+                    "parent_id": 24970,
+                    "enable_size_chart": false,
+                    "id": 24978
+                }
         ]
     },
     "user_message": "success"

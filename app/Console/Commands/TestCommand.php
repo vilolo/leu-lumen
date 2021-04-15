@@ -23,7 +23,7 @@ class TestCommand extends Command
     }
 
     public function saveCategory(){
-        $shop = 'sg';
+        $shop = 'br';
         $file = base_path().'/public/data/category_'.$shop.'.json';
         $res = file_get_contents($file);
         $list = json_decode($res, true)['data']['list'];
@@ -34,6 +34,7 @@ class TestCommand extends Command
                 $data[$v['id']] = [
                     'shop' => $shop,
                     'cid' => $v['id'],
+                    'name' => $v['name'],
                     'source_name' => $v['display_name'],
                     'pid' => 0,
                     'path' => $path,
@@ -45,6 +46,7 @@ class TestCommand extends Command
                         $data[$v2['id']] = [
                             'shop' => $shop,
                             'cid' => $v2['id'],
+                            'name' => $v2['name'],
                             'source_name' => $v2['display_name'],
                             'pid' => $v2['parent_id'],
                             'path' => $path,
@@ -55,6 +57,7 @@ class TestCommand extends Command
                                 $data[$v3['id']] = [
                                     'shop' => $shop,
                                     'cid' => $v3['id'],
+                                    'name' => $v3['name'],
                                     'source_name' => $v3['display_name'],
                                     'pid' => $v3['parent_id'],
                                     'path' => $path.','.$v2['id'],
@@ -65,6 +68,7 @@ class TestCommand extends Command
                                         $data[$v4['id']] = [
                                             'shop' => $shop,
                                             'cid' => $v4['id'],
+                                            'name' => $v4['name'],
                                             'source_name' => $v4['display_name'],
                                             'pid' => $v4['parent_id'],
                                             'path' => $path.','.$v2['id'].','.$v3['id'],
