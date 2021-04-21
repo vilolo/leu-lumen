@@ -100,6 +100,10 @@ class SsppController extends BaseAdminController
         return $this->curlGet($url, $k);
     }
 
+    public function getItemDetail(Request $request){
+
+    }
+
     public function curlGet($url, $k)
     {
         //https://shopee.com.my/api/v4/shop/get_shop_detail?username=watchgod.my
@@ -141,12 +145,12 @@ class SsppController extends BaseAdminController
         }else{
             $res = $this->getData($request);
             $arr = json_decode($res, true);
-            $data = $this->assignData($arr, $request->shop);
+            $data = $this->assignData($arr, $request->shop, $request->getDetail==1);
         }
         return Utils::res_ok('ok',$data);
     }
 
-    private function assignData($arr, $shop)
+    private function assignData($arr, $shop, $getDetail = false)
     {
         $data = [
             'total_count' => number_format($arr['total_count']),
@@ -199,25 +203,43 @@ class SsppController extends BaseAdminController
             $profitPerView = bcdiv($soldHistoricalProfit,($v['view_count']>0?$v['view_count']:1),3);
             $totalPerViewProduct += $profitPerView;
 
-            //分类
-            $category = CategoryModel::where('cid', $v['catid'])->first();
-            if (filled($category)){
-                $ids = $category['path'].','.$v['catid'];
-                $cpath = CategoryModel::whereRaw(" cid in ({$ids}) ")
-                    ->orderByRaw(" FIELD(cid,{$ids}) ")
-                    ->select(DB::raw(' group_concat(name," || ") as name'))
-                    ->first();
-            }
-
-            //店铺名
+            //店铺信息
 //            $param = 'shopid='.$v['shopid'];
 //            $k = md5('55b03'.md5($param).'55b03');
 //            $shopInfo = $this->curlGet(self::URL_LIST[$shop].'api/v4/product/get_shop_info?'.$param, md5('55b03'.md5($k).'55b03'));
 //            $shopInfo = json_decode($shopInfo, true);
 
+            //商品详情  ?itemid=9337328351&shopid=110514716
+            if ($getDetail){
+                try {
+                    $param = "itemid={$v['itemid']}&shopid={$v['shopid']}";
+                    $k = md5('55b03'.md5($param).'55b03');
+                    $itemDetail = $this->curlGet(self::URL_LIST[$shop].'api/v2/item/get?'.$param, $k);
+                    $itemDetail = json_decode($itemDetail, JSON_UNESCAPED_UNICODE);
+                }catch (\Exception $e){
+                }
+            }
+
+            //分类
+//            $category = CategoryModel::where('cid', $v['catid'])->first();
+//            if (filled($category)){
+//                $ids = $category['path'].','.$v['catid'];
+//                $cpath = CategoryModel::whereRaw(" cid in ({$ids}) ")
+//                    ->orderByRaw(" FIELD(cid,{$ids}) ")
+//                    ->select(DB::raw(' group_concat(name," || ") as name'))
+//                    ->first();
+//            }
+
+            $cpath = '';
+            if (isset($itemDetail['item']['categories'])){
+                foreach ($itemDetail['item']['categories'] as $cv){
+                    $cpath .= $cv['display_name'] . ' > ';
+                }
+            }
+
             $goodsList[] = [
                 'name' => $name,
-                'cname' => $cpath['name']??'',
+                'cname' => $cpath??'-',
                 'images' => $imgList,
                 'url' => $url,
                 'price' => $price,
@@ -241,7 +263,6 @@ class SsppController extends BaseAdminController
 //                    $shopInfo['data']['account']['username'].'*'.$shopInfo['data']['name'].'*'.date('Y-m-d', $shopInfo['data']['ctime']):'--',
                 'shopid' => $v['shopid']
             ];
-
         }
         $c = count($arr['items']);
         return [
@@ -452,7 +473,7 @@ class SsppController extends BaseAdminController
 
     public function allCategory()
     {
-        $res = CategoryModel::select('cid', 'shop', 'name', 'pid')
+        $res = CategoryModel::select('cid', 'shop', 'name', 'zh_name', 'pid')
             ->whereIn('shop', ['my','tw','th','sg','br'])
             ->get()->toArray();
         $list = [];
@@ -469,6 +490,11 @@ class SsppController extends BaseAdminController
                             if ($v2['cid'] == $v3['pid']){
                                 $list[$v['shop']][$v['cid']]['child'][$k2]['child'][$k3] = $v3;
                                 unset($res[$k3]);
+                                foreach ($res as $k4 => $v4){
+                                    if ($v3['cid'] == $v4['pid']){
+                                        $list[$v['shop']][$v['cid']]['child'][$k2]['child'][$k3]['child'][$k4] = $v4;
+                                    }
+                                }
                             }
                         }
                     }
