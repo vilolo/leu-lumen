@@ -15,7 +15,7 @@ class CategoryAnalysisCommand extends Command
 //        $list = MarketModel::where('id', '<', 200)->get();
 
         $shop = 'sg';
-        $location = '-2';   //-1本地，-2oversea
+        $location = '-1';   //-1本地，-2oversea
         $list = CategoryAnalysisModel::where([
             ['shop', $shop],
             ['location', $location],

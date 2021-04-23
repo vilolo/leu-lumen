@@ -80,6 +80,19 @@ class SsppController extends BaseAdminController
         $data = array_filter($data);
         $data['newest'] = $request->newest??0;
 
+        switch ($request->shop_type){
+            case 1:
+                $data['official_mall'] = 1;
+                break;
+            case 2:
+                $data['shopee_verified'] = 1;
+                $data['skip_autocorrect'] = 1;
+                break;
+            case 3:
+                $data['skip_autocorrect'] = 1;
+                break;
+        }
+
         if ($type == 1){
             $param = http_build_query($data);
             $url = self::URL_LIST[$this->platform]."api/v2/search_items/?".$param;
@@ -220,6 +233,16 @@ class SsppController extends BaseAdminController
                 }
             }
 
+            //店铺类型
+            $shopType = '';
+            if ($v['is_official_shop']){
+                $shopType = 'Mall';
+            }elseif($v['is_preferred_plus_seller']){
+                $shopType = 'Preferred +';
+            }elseif ($v['shopee_verified']){
+                $shopType = 'Preferred';
+            }
+
             //分类
 //            $category = CategoryModel::where('cid', $v['catid'])->first();
 //            if (filled($category)){
@@ -239,6 +262,7 @@ class SsppController extends BaseAdminController
 
             $goodsList[] = [
                 'name' => $name,
+                'shopType' => $shopType,
                 'cname' => $cpath??'-',
                 'images' => $imgList,
                 'url' => $url,
