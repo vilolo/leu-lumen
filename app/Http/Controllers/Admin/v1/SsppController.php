@@ -211,7 +211,7 @@ class SsppController extends BaseAdminController
             $avgSoldProfit = bcdiv($soldProfit, 30, 2);
             $avgSoldHistoricalProfit = bcdiv($soldHistoricalProfit, $days, 2);
             $perProductProfit += $avgSoldHistoricalProfit;
-            $avgLike = bcdiv($v['liked_count'], ($days>30?30:$days), 2);
+            $avgLike = bcdiv($v['liked_count'], $days, 2);
             $totalAvgLike += $avgLike;
             $profitPerView = bcdiv($soldHistoricalProfit,($v['view_count']>0?$v['view_count']:1),3);
             $totalPerViewProduct += $profitPerView;
