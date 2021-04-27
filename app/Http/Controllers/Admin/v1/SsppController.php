@@ -202,7 +202,7 @@ class SsppController extends BaseAdminController
             //上架天数，平均每日浏览数，30天平均销量，总平均销量，30天利润，总利润，30天平均利润，总平均利润，平均点赞数，平均每商品每天浏览量
             $days = bcdiv(bcsub(time(), $v['ctime']), 86400, 2);
             $days = $days>0?$days:1;
-            $avgViewCount = bcdiv($v['view_count'], $days, 2);
+            $avgViewCount = bcdiv($v['view_count'], ($days>30?30:$days), 2);
             $perViewProduct += $avgViewCount;
             $avgSold = bcdiv($sold, 30, 2);
             $avgHistoricalSold = bcdiv($historicalSold, $days, 2);
@@ -211,7 +211,7 @@ class SsppController extends BaseAdminController
             $avgSoldProfit = bcdiv($soldProfit, 30, 2);
             $avgSoldHistoricalProfit = bcdiv($soldHistoricalProfit, $days, 2);
             $perProductProfit += $avgSoldHistoricalProfit;
-            $avgLike = bcdiv($v['liked_count'], $days, 2);
+            $avgLike = bcdiv($v['liked_count'], ($days>30?30:$days), 2);
             $totalAvgLike += $avgLike;
             $profitPerView = bcdiv($soldHistoricalProfit,($v['view_count']>0?$v['view_count']:1),3);
             $totalPerViewProduct += $profitPerView;
