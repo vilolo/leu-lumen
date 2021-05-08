@@ -25,6 +25,8 @@ class SsppController extends BaseAdminController
         'sg' => 'https://sg.xiapibuy.com/',
     ];
 
+    const IMG_BASE = 'https://s-cf-my.shopeesz.com/file/';
+
     private $platform = '';
 
     public function getData(Request $request)
@@ -285,7 +287,8 @@ class SsppController extends BaseAdminController
                 'profitPerView' => $profitPerView,
 //                'shopInfo' => isset($shopInfo['data']['account']['username'])?
 //                    $shopInfo['data']['account']['username'].'*'.$shopInfo['data']['name'].'*'.date('Y-m-d', $shopInfo['data']['ctime']):'--',
-                'shopid' => $v['shopid']
+                'shopid' => $v['shopid'],
+                'itemid' => $v['itemid']
             ];
         }
         $c = count($arr['items']);
@@ -305,6 +308,60 @@ class SsppController extends BaseAdminController
                 'avgAvgLike' => bcdiv($totalAvgLike, $c, 2),
             ])
         ];
+    }
+
+    public function getDetail(Request $request)
+    {
+        $itemid = $request->itemid;
+        $shopid = $request->shopid;
+        $shop = $request->shop;
+        $param = "itemid={$itemid}&shopid={$shopid}";
+        $k = md5('55b03'.md5($param).'55b03');
+        $itemDetail = $this->curlGet(self::URL_LIST[$shop].'api/v2/item/get?'.$param, $k);
+        $itemDetail = json_decode($itemDetail, JSON_UNESCAPED_UNICODE);
+
+        $cpath = '';
+        if (isset($itemDetail['item']['categories'])){
+            foreach ($itemDetail['item']['categories'] as $cv){
+                $cpath .= $cv['display_name'] . ' > ';
+            }
+        }
+
+        $skuList = [];
+        if (isset($itemDetail['item']['models']) && count($itemDetail['item']['models']) > 0){
+            foreach ($itemDetail['item']['models'] as $k => $v){
+                $temp = [
+                    'sold' => $v['sold'],
+                    'name' => $v['name'],
+                    'price' => bcdiv($v['price'],100000,3),
+                    'stock' => $v['stock'],
+                    'total' => bcmul($v['sold'], bcdiv($v['price'],100000,3), 2),
+                    'image' => isset($itemDetail['item']['tier_variations'][0]['images'][$k]) ? self::IMG_BASE.$itemDetail['item']['tier_variations'][0]['images'][$k].'_tn' : '',
+                ];
+                foreach ($itemDetail['item']['tier_variations'] as $k2 => $v2){
+                    if (isset($v2['images']) && !empty($v2['images'])){
+                        foreach ($v2['images'] as $k3 => $v3){
+                            if (in_array($v2['options'][$k3], explode(',', $v['name']))){
+                                $temp['image'] = self::IMG_BASE.$itemDetail['item']['tier_variations'][$k2]['images'][$k3].'_tn';
+                            }
+                        }
+                    }
+                }
+                $skuList[] = $temp;
+            }
+        }
+
+        $temp = [];
+        foreach ($skuList as $k => $v){
+            $temp[$k] = $v['sold'];
+        }
+
+        array_multisort($temp, SORT_DESC, $skuList);
+
+        return Utils::res_ok('ok',[
+            'cpath' => $cpath,
+            'skuList' => $skuList,
+        ]);
     }
 
     public function getOrganizeData(Request $request)

@@ -14,8 +14,9 @@ class CategoryAnalysisCommand extends Command
     public function handle(){
 //        $list = MarketModel::where('id', '<', 200)->get();
 
-        $shop = 'sg';
+        $shop = 'my';
         $location = '-1';   //-1本地，-2oversea
+        echo $shop,',',$location,'>';
         $list = CategoryAnalysisModel::where([
             ['shop', $shop],
             ['location', $location],
@@ -58,7 +59,7 @@ class CategoryAnalysisCommand extends Command
                     //上架天数，平均每日浏览数，30天平均销量，总平均销量，30天利润，总利润，30天平均利润，总平均利润，平均点赞数，平均每商品每天浏览量
                     $days = bcdiv(bcsub(time(), $v['ctime']), 86400, 2);
                     $days = $days>0?$days:1;
-                    $avgViewCount = bcdiv($v['view_count'], $days, 2);
+                    $avgViewCount = bcdiv($v['view_count'], ($days>30?30:$days), 2);
                     $perViewProduct += $avgViewCount;
                     $soldHistoricalProfit = bcmul(bcmul($historicalSold, $price, 2), 0.1, 2);
                     $avgSoldHistoricalProfit = bcdiv($soldHistoricalProfit, $days, 2);
