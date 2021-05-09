@@ -145,7 +145,7 @@ class SsppController extends BaseAdminController
     {
         //1=keyword, 2=store, 3=category, 4=collect
         if ($request->type == 4){
-            $goodsList = $this->collectList();
+            $goodsList = $this->collectList($request->shop);
             $list = [];
             foreach ($goodsList as $v){
                 $temp = json_decode($v['goods_info'], JSON_UNESCAPED_UNICODE);
@@ -506,10 +506,11 @@ class SsppController extends BaseAdminController
         return Utils::res_ok('ok');
     }
 
-    private function collectList()
+    private function collectList($shop)
     {
         return GoodsCollectModel::where([
-            'status' => 1
+            'status' => 1,
+            'shop' => $shop
         ])
             ->select('shop', 'goods_info', 'id')
             ->orderBy('id', 'desc')->get();
