@@ -150,6 +150,7 @@ class SsppController extends BaseAdminController
             foreach ($goodsList as $v){
                 $temp = json_decode($v['goods_info'], JSON_UNESCAPED_UNICODE);
                 $temp['did'] = $v['id'];
+                $temp['shop'] = $v['shop'];
                 $temp['name'] = "【{$v['shop']}】".$temp['name'];
                 $list[] = $temp;
             }
