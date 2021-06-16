@@ -61,12 +61,13 @@ class CategoryAnalysisCommand extends Command
                     $days = $days>0?$days:1;
                     $avgViewCount = bcdiv($v['view_count'], ($days>30?30:$days), 2);
                     $perViewProduct += $avgViewCount;
+                    $soldProfit = bcmul(bcmul($v['sold'], $price, 2), 0.1, 2);
                     $soldHistoricalProfit = bcmul(bcmul($historicalSold, $price, 2), 0.1, 2);
                     $avgSoldHistoricalProfit = bcdiv($soldHistoricalProfit, $days, 2);
                     $perProductProfit += $avgSoldHistoricalProfit;
                     $avgLike = bcdiv($v['liked_count'], $days, 2);
                     $totalAvgLike += $avgLike;
-                    $profitPerView = bcdiv($soldHistoricalProfit,($v['view_count']>0?$v['view_count']:1),3);
+                    $profitPerView = bcdiv($soldProfit,($v['view_count']>0?$v['view_count']:1),3);
                     $totalPerViewProduct += $profitPerView;
                 }
             }
