@@ -14,8 +14,8 @@ class CategoryAnalysisCommand extends Command
     public function handle(){
 //        $list = MarketModel::where('id', '<', 200)->get();
 
-        $shop = 'my';
-        $location = '-1';   //-1本地，-2oversea
+        $shop = 'tw';
+        $location = '-2';   //-1本地，-2oversea
         echo $shop,',',$location,'>';
         $list = CategoryAnalysisModel::where([
             ['shop', $shop],

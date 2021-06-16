@@ -216,7 +216,7 @@ class SsppController extends BaseAdminController
             $perProductProfit += $avgSoldHistoricalProfit;
             $avgLike = bcdiv($v['liked_count'], $days, 2);
             $totalAvgLike += $avgLike;
-            $profitPerView = bcdiv($soldHistoricalProfit,($v['view_count']>0?$v['view_count']:1),3);
+            $profitPerView = bcdiv($soldProfit,($v['view_count']>0?$v['view_count']:1),3);  //由于浏览量是近期的
             $totalPerViewProduct += $profitPerView;
 
             //店铺信息
@@ -302,7 +302,7 @@ class SsppController extends BaseAdminController
                 //收益：商品每日平均收益 = （累加（（历史总销量*单价）*0.1）/days）/总商品数
                 'perProductProfit' => bcdiv($perProductProfit, $c, 2),
 
-                //转化：商品总平均浏览收益 = （累加（（（历史总销量*单价）*0.1）/总浏览量））/总商品数
+                //转化：近期商品平均浏览收益 = （累加（（（近期销量*单价）*0.1）/浏览量））/总商品数
                 'avgProfitPerView' => bcdiv($totalPerViewProduct, $c, 2),
 
                 //热度：平均商品收藏
