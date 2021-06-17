@@ -161,12 +161,12 @@ class SsppController extends BaseAdminController
         }else{
             $res = $this->getData($request);
             $arr = json_decode($res, true);
-            $data = $this->assignData($arr, $request->shop, $request->getDetail==1);
+            $data = $this->assignData($arr, $request->shop, $request->getDetail==1, $request->isExport==1, $request);
         }
         return Utils::res_ok('ok',$data);
     }
 
-    private function assignData($arr, $shop, $getDetail = false)
+    private function assignData($arr, $shop, $getDetail = false, $isExport = false, $request = null)
     {
         $data = [
             'total_count' => number_format($arr['total_count']),
@@ -263,25 +263,33 @@ class SsppController extends BaseAdminController
                 }
             }
 
-            $goodsList[] = [
+            $tt = [
                 'name' => $name,
                 'shopType' => $shopType,
                 'cname' => $cpath??'-',
-                'images' => $imgList,
+                'images' => $isExport?($imgList[0]??''):$imgList,
+                'images2' => $imgList[1]??'',
                 'url' => $url,
+                'src_price' => $v['price_min'].'-'.$v['price_max'],
                 'price' => $price,
                 'ctime' => $ctime,
                 'days' => $days,
+
                 'sold' => $sold,
                 'avgSold' => $avgSold,
                 'soldProfit' => $soldProfit,
                 'avgSoldProfit' => $avgSoldProfit,
+
+                'src_view_count' => $v['view_count'],
+                'avgViewCount' => $avgViewCount,
+
                 'historicalSold' => $historicalSold,
                 'avgHistoricalSold' => $avgHistoricalSold,
                 'soldHistoricalProfit' => $soldHistoricalProfit,
                 'avgSoldHistoricalProfit' => $avgSoldHistoricalProfit,
-                'avgViewCount' => $avgViewCount,
+
                 'itemRating' => $itemRating,
+                'src_like' => $v['liked_count'],
                 'avgLike' => $avgLike,
                 'adsKeyword' => $ads_keyword,
                 'shopLocation' => $shop_location,
@@ -291,7 +299,22 @@ class SsppController extends BaseAdminController
                 'shopid' => $v['shopid'],
                 'itemid' => $v['itemid']
             ];
+
+//            if ($isExport){
+//                $tt['src_price'] = $v['price_min'].'-'.$v['price_max'];
+//                $tt['src_like'] = $v['liked_count'];
+//                $tt['src_view_count'] = $v['view_count'];
+//            }
+
+            $goodsList[] = $tt;
         }
+
+        if ($isExport){
+            $this->exportData($goodsList, $request->shop.'_'.($request->keyword??'0').'_'.($request->cids??'0').'_'.date('Ymd-His'), [
+                '标题','店铺类型','分类名','图片1','图片2','URL','价格','平均价格','创建时间','上线天数','月销量','月平均销量','月收益','平均月收益','月浏览量','平均浏览量','历史销量','历史平均销量','历史收益','平均历史收益','评分','总收藏','平均收藏','广告词','店铺地址','转化（平均浏览收益）','店铺id','商品id'
+            ]);
+        }
+
         $c = count($arr['items']);
         return [
             'goodsList' => $goodsList,

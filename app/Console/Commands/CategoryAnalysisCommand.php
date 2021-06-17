@@ -14,8 +14,8 @@ class CategoryAnalysisCommand extends Command
     public function handle(){
 //        $list = MarketModel::where('id', '<', 200)->get();
 
-        $shop = 'tw';
-        $location = '-2';   //-1本地，-2oversea
+        $shop = 'my';
+        $location = '-1';   //-1本地，-2oversea
         echo $shop,',',$location,'>';
         $list = CategoryAnalysisModel::where([
             ['shop', $shop],
@@ -23,6 +23,7 @@ class CategoryAnalysisCommand extends Command
         ])
             ->whereRaw('total_goods is null')
             ->select('id', 'cid')
+//            ->orderBy('id', 'desc')
             ->get();
 
 //        $list = CategoryAnalysisModel::where([
@@ -100,7 +101,7 @@ class CategoryAnalysisCommand extends Command
     }
 
     const URL_LIST = [
-        'my' => 'https://shopee.com.my/',
+        'my' => 'https://shopee.com.my/',   //https://my.xiapibuy.com/
         'tw' => 'https://xiapi.xiapibuy.com/',
         'th' => 'https://th.xiapibuy.com/',
         'br' => 'https://br.xiapibuy.com/',
