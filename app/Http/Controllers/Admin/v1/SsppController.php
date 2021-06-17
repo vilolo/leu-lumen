@@ -270,7 +270,7 @@ class SsppController extends BaseAdminController
                 'images' => $isExport?($imgList[0]??''):$imgList,
                 'images2' => $imgList[1]??'',
                 'url' => $url,
-                'src_price' => $v['price_min'].'-'.$v['price_max'],
+                'src_price' => ($v['price_min']/100000).'-'.($v['price_max']/100000),
                 'price' => $price,
                 'ctime' => $ctime,
                 'days' => $days,
