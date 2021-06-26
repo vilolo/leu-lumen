@@ -1,0 +1,5 @@
+-- tw
+https://seller.xiapi.shopee.cn/api/v3/category/get_category_tree/?SPC_CDS=3521211d-d44d-4987-a556-97eb8907a9e5&SPC_CDS_VER=2&include_level=5
+
+--my
+https://seller.my.shopee.cn/api/v3/category/get_category_tree/?SPC_CDS=417e0a92-c1c5-4117-8589-bfef36300e9a&SPC_CDS_VER=2&include_level=5

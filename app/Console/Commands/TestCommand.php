@@ -19,7 +19,77 @@ class TestCommand extends Command
     public function handle(){
 //        $this->downCategory();
 //        $this->saveToDatabase();
-        $this->saveCategory();
+//        $this->saveCategory();
+        $this->saveCategoryV3();
+    }
+
+    public function saveCategoryV3()
+    {
+        $shop = 'sg';
+        $file = base_path().'/public/data/category_'.$shop.'.json';
+        $res = file_get_contents($file);
+        $list = json_decode($res, true)['data']['list'];
+        $data = [];
+        foreach ($list as $k => $v){
+            $data[$v['id']] = [
+                'shop' => $shop,
+                'cid' => $v['id'],
+                'name' => $v['name'],
+                'source_name' => $v['display_name'],
+                'pid' => $v['parent_id'],
+                'path' => 0,
+            ];
+            if ($v['children']){
+                foreach ($v['children'] as $v2){
+                    $data[$v2['id']] = [
+                        'shop' => $shop,
+                        'cid' => $v2['id'],
+                        'name' => $v2['name'],
+                        'source_name' => $v2['display_name'],
+                        'pid' => $v2['parent_id'],
+                        'path' => '0,'.$v['id'],
+                    ];
+                    if ($v2['children']){
+                        foreach ($v2['children'] as $v3){
+                            $data[$v3['id']] = [
+                                'shop' => $shop,
+                                'cid' => $v3['id'],
+                                'name' => $v3['name'],
+                                'source_name' => $v3['display_name'],
+                                'pid' => $v3['parent_id'],
+                                'path' => '0,'.$v['id'].','.$v2['id'],
+                            ];
+                            if ($v3['children']){
+                                foreach ($v3['children'] as $v4){
+                                    $data[$v4['id']] = [
+                                        'shop' => $shop,
+                                        'cid' => $v4['id'],
+                                        'name' => $v4['name'],
+                                        'source_name' => $v4['display_name'],
+                                        'pid' => $v4['parent_id'],
+                                        'path' => '0,'.$v['id'].','.$v2['id'].','.$v3['id'],
+                                    ];
+                                    if ($v4['children']){
+                                        foreach ($v4['children'] as $v5){
+                                            $data[$v5['id']] = [
+                                                'shop' => $shop,
+                                                'cid' => $v5['id'],
+                                                'name' => $v5['name'],
+                                                'source_name' => $v5['display_name'],
+                                                'pid' => $v5['parent_id'],
+                                                'path' => '0,'.$v['id'].','.$v2['id'].','.$v3['id'].','.$v4['id'],
+                                            ];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        DB::table('category_new')->insert($data);
+        echo 'ok';
     }
 
     public function saveCategory(){

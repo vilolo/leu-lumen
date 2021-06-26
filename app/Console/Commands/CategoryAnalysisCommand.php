@@ -23,6 +23,7 @@ class CategoryAnalysisCommand extends Command
         ])
             ->whereRaw('total_goods is null')
             ->select('id', 'cid')
+//            ->orderBy('id', 'desc')
             ->get();
 
 //        $list = CategoryAnalysisModel::where([
@@ -70,31 +71,33 @@ class CategoryAnalysisCommand extends Command
                     $profitPerView = bcdiv($soldProfit,($v['view_count']>0?$v['view_count']:1),3);
                     $totalPerViewProduct += $profitPerView;
                 }
+
+                $c = count($arr['items']);
+                $c = $c<=0?1:$c;
+
+//                $temp = [
+//                    //热度：商品每日平均浏览量 = （累加（view_count/days））/总商品数
+//                    'perViewProduct' => bcdiv($perViewProduct, $c, 2),
+//
+//                    //收益：商品每日平均收益 = （累加（（历史总销量*单价）*0.1）/days）/总商品数
+//                    'perProductProfit' => bcdiv($perProductProfit, $c, 2),
+//
+//                    //转化：商品总平均浏览收益 = （累加（（（历史总销量*单价）*0.1）/总浏览量））/总商品数
+//                    'avgProfitPerView' => bcdiv($totalPerViewProduct, $c, 2),
+//
+//                    //热度：平均商品收藏
+//                    'avgAvgLike' => bcdiv($totalAvgLike, $c, 2),
+//                ];
+
+                CategoryAnalysisModel::where('id', $citem->id)->update([
+                    'total_goods' => $arr['total_count']??0,
+                    'avg_day_profit' => bcdiv($perProductProfit, $c, 2),
+                    'avg_day_view' => bcdiv($perViewProduct, $c, 2),
+                    'avg_day_like' => bcdiv($totalAvgLike, $c, 2),
+                    'avg_view_profit' => bcdiv($totalPerViewProduct, $c, 2),
+                ]);
             }
 
-            $c = count($arr['items']);
-            $c = $c<=0?1:$c;
-//            $temp = [
-//                //热度：商品每日平均浏览量 = （累加（view_count/days））/总商品数
-//                'perViewProduct' => bcdiv($perViewProduct, $c, 2),
-//
-//                //收益：商品每日平均收益 = （累加（（历史总销量*单价）*0.1）/days）/总商品数
-//                'perProductProfit' => bcdiv($perProductProfit, $c, 2),
-//
-//                //转化：商品总平均浏览收益 = （累加（（（历史总销量*单价）*0.1）/总浏览量））/总商品数
-//                'avgProfitPerView' => bcdiv($totalPerViewProduct, $c, 2),
-//
-//                //热度：平均商品收藏
-//                'avgAvgLike' => bcdiv($totalAvgLike, $c, 2),
-//            ];
-
-            CategoryAnalysisModel::where('id', $citem->id)->update([
-                'total_goods' => $arr['total_count']??0,
-                'avg_day_profit' => bcdiv($perProductProfit, $c, 2),
-                'avg_day_view' => bcdiv($perViewProduct, $c, 2),
-                'avg_day_like' => bcdiv($totalAvgLike, $c, 2),
-                'avg_view_profit' => bcdiv($totalPerViewProduct, $c, 2),
-            ]);
             echo 1;
         }
     }

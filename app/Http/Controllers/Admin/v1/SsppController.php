@@ -557,25 +557,32 @@ class SsppController extends BaseAdminController
     public function allCategory()
     {
         $res = CategoryModel::select('cid', 'shop', 'name', 'zh_name', 'pid')
-            ->whereIn('shop', ['my','tw','th','sg','br'])
-            ->get()->toArray();
+//            ->whereIn('shop', ['my','tw','th','sg','br'])
+                ->orderBy('id')
+                ->get()->toArray();
         $list = [];
         foreach ($res as $k => $v){
             if ($v['pid'] == 0){
                 //一级
-                $list[$v['shop']][$v['cid']] = $v;
+                $list[$v['shop']]['>'.$v['cid']] = $v;
                 unset($res[$k]);
                 foreach ($res as $k2 => $v2){
-                    if ($v['cid'] == $v2['pid']){
-                        $list[$v['shop']][$v['cid']]['child'][$k2] = $v2;
+                    if ($v['cid'] == $v2['pid'] && $v['shop'] == $v2['shop']){
+                        $list[$v['shop']]['>'.$v['cid']]['child'][$k2] = $v2;
                         unset($res[$k2]);
                         foreach ($res as $k3 => $v3){
-                            if ($v2['cid'] == $v3['pid']){
-                                $list[$v['shop']][$v['cid']]['child'][$k2]['child'][$k3] = $v3;
+                            if ($v2['cid'] == $v3['pid'] && $v2['shop'] == $v3['shop']){
+                                $list[$v['shop']]['>'.$v['cid']]['child'][$k2]['child'][$k3] = $v3;
                                 unset($res[$k3]);
                                 foreach ($res as $k4 => $v4){
-                                    if ($v3['cid'] == $v4['pid']){
-                                        $list[$v['shop']][$v['cid']]['child'][$k2]['child'][$k3]['child'][$k4] = $v4;
+                                    if ($v3['cid'] == $v4['pid'] && $v3['shop'] == $v4['shop']){
+                                        $list[$v['shop']]['>'.$v['cid']]['child'][$k2]['child'][$k3]['child'][$k4] = $v4;
+                                        unset($res[$k4]);
+                                        foreach ($res as $k5 => $v5){
+                                            if ($v4['cid'] == $v5['pid'] && $v4['shop'] == $v5['shop']){
+                                                $list[$v['shop']]['>'.$v['cid']]['child'][$k2]['child'][$k3]['child'][$k4]['child'][$k5] = $v5;
+                                            }
+                                        }
                                     }
                                 }
                             }
