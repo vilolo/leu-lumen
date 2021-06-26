@@ -38,6 +38,7 @@ class TestCommand extends Command
                 'source_name' => $v['display_name'],
                 'pid' => $v['parent_id'],
                 'path' => 0,
+                'has_children' => $v['has_children']?1:0,
             ];
             if ($v['children']){
                 foreach ($v['children'] as $v2){
@@ -48,6 +49,7 @@ class TestCommand extends Command
                         'source_name' => $v2['display_name'],
                         'pid' => $v2['parent_id'],
                         'path' => '0,'.$v['id'],
+                        'has_children' => $v2['has_children']?1:0,
                     ];
                     if ($v2['children']){
                         foreach ($v2['children'] as $v3){
@@ -58,6 +60,7 @@ class TestCommand extends Command
                                 'source_name' => $v3['display_name'],
                                 'pid' => $v3['parent_id'],
                                 'path' => '0,'.$v['id'].','.$v2['id'],
+                                'has_children' => $v3['has_children']?1:0,
                             ];
                             if ($v3['children']){
                                 foreach ($v3['children'] as $v4){
@@ -68,6 +71,7 @@ class TestCommand extends Command
                                         'source_name' => $v4['display_name'],
                                         'pid' => $v4['parent_id'],
                                         'path' => '0,'.$v['id'].','.$v2['id'].','.$v3['id'],
+                                        'has_children' => $v4['has_children']?1:0,
                                     ];
                                     if ($v4['children']){
                                         foreach ($v4['children'] as $v5){
@@ -78,6 +82,7 @@ class TestCommand extends Command
                                                 'source_name' => $v5['display_name'],
                                                 'pid' => $v5['parent_id'],
                                                 'path' => '0,'.$v['id'].','.$v2['id'].','.$v3['id'].','.$v4['id'],
+                                                'has_children' => $v5['has_children']?1:0,
                                             ];
                                         }
                                     }

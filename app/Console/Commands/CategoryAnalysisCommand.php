@@ -15,7 +15,7 @@ class CategoryAnalysisCommand extends Command
 //        $list = MarketModel::where('id', '<', 200)->get();
 
         $shop = 'my';
-        $location = '-1';   //-1本地，-2oversea
+        $location = '-2';   //-1本地，-2oversea
         echo $shop,',',$location,'>';
         $list = CategoryAnalysisModel::where([
             ['shop', $shop],
@@ -103,7 +103,7 @@ class CategoryAnalysisCommand extends Command
     }
 
     const URL_LIST = [
-        'my' => 'https://shopee.com.my/',   //https://my.xiapibuy.com/
+        'my' => 'https://my.xiapibuy.com/',   //https://my.xiapibuy.com/
         'tw' => 'https://xiapi.xiapibuy.com/',
         'th' => 'https://th.xiapibuy.com/',
         'br' => 'https://br.xiapibuy.com/',
