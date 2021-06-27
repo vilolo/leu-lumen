@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 class SsppController extends BaseAdminController
 {
     const URL_LIST = [
-        'my' => 'https://shopee.com.my/',
+        'my' => 'https://my.xiapibuy.com/',
         'tw' => 'https://xiapi.xiapibuy.com/',
         'th' => 'https://th.xiapibuy.com/',
         'br' => 'https://br.xiapibuy.com/',
