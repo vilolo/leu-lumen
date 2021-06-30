@@ -290,7 +290,7 @@ class SsppController extends BaseAdminController
                 'shopid' => $v['shopid'],
                 'itemid' => $v['itemid'],
                 'review' => $cmt_count,
-                'reviewRate' => bcdiv($cmt_count,$historicalSold,2),
+                'reviewRate' => $historicalSold>0?bcdiv($cmt_count,$historicalSold,2):0,
             ];
         }
         $c = count($arr['items']);
