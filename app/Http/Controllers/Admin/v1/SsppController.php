@@ -180,7 +180,7 @@ class SsppController extends BaseAdminController
         $perProductProfit = 0;
         $totalAvgLike = 0;
         foreach ($arr['items'] as $k => $v){
-            //标题，链接，图片，最低价，最高价，30天销量，总销量，上架时间，评分，广告词，地方
+            //标题，链接，图片，最低价，最高价，30天销量，总销量，上架时间，评分，广告词，地方，review
             $name = $v['name'];
             $url = self::URL_LIST[$this->platform].preg_replace("/[\\s|\\[|\\]]+/", '-', str_replace('#','', str_replace('%', '', $v['name']))).'-i.'.$v['shopid'].'.'.$v['itemid'];
             //$imgUrl = 'https://cf.shopee.com.my/file/';
@@ -199,8 +199,9 @@ class SsppController extends BaseAdminController
             $itemRating = $v['item_rating']['rating_star'];
             $ads_keyword = $v['ads_keyword'];
             $shop_location = $v['shop_location'];
+            $cmt_count = $v['cmt_count'];
 
-            //上架天数，平均每日浏览数，30天平均销量，总平均销量，30天利润，总利润，30天平均利润，总平均利润，平均点赞数，平均每商品每天浏览量
+            //上架天数，平均每日浏览数，30天平均销量，总平均销量，30天利润，总利润，30天平均利润，总平均利润，平均点赞数，平均每商品每天浏览量，review率
             $days = bcdiv(bcsub(time(), $v['ctime']), 86400, 2);
             $days = $days>0?$days:1;
             $avgViewCount = bcdiv($v['view_count'], ($days>30?30:$days), 2);
@@ -287,7 +288,9 @@ class SsppController extends BaseAdminController
 //                'shopInfo' => isset($shopInfo['data']['account']['username'])?
 //                    $shopInfo['data']['account']['username'].'*'.$shopInfo['data']['name'].'*'.date('Y-m-d', $shopInfo['data']['ctime']):'--',
                 'shopid' => $v['shopid'],
-                'itemid' => $v['itemid']
+                'itemid' => $v['itemid'],
+                'review' => $cmt_count,
+                'reviewRate' => bcdiv($cmt_count,$historicalSold,2),
             ];
         }
         $c = count($arr['items']);
