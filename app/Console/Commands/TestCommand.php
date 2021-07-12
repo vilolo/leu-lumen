@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 
 
 use App\Models\CategoryModel;
+use App\Services\TestSDK\TestSDK;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -20,7 +21,9 @@ class TestCommand extends Command
 //        $this->downCategory();
 //        $this->saveToDatabase();
 //        $this->saveCategory();
-        $this->saveCategoryV3();
+//        $this->saveCategoryV3();
+
+        echo (new TestSDK())->test();
     }
 
     public function saveCategoryV3()
