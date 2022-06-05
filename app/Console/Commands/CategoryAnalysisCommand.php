@@ -14,7 +14,7 @@ class CategoryAnalysisCommand extends Command
     public function handle(){
 //        $list = MarketModel::where('id', '<', 200)->get();
 
-        $shop = 'tw';
+        $shop = 'my';
         $location = '-1';   //-1本地，-2oversea
         echo $shop,',',$location,'>';
         $list = CategoryAnalysisModel::where([
@@ -23,7 +23,7 @@ class CategoryAnalysisCommand extends Command
         ])
             ->whereRaw('total_goods is null')
             ->select('id', 'cid')
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->get();
 
 //        $list = CategoryAnalysisModel::where([
@@ -54,21 +54,22 @@ class CategoryAnalysisCommand extends Command
             $totalPerViewProduct = 0;
             if ($arr){
                 foreach ($arr['items'] as $k => $v){
-                    $price = bcdiv(bcadd($v['price_min'], $v['price_max'],3), 100000*2, 3);
-                    $historicalSold = $v['historical_sold'];
+                    $item_basic = $v['item_basic'];
+                    $price = bcdiv(bcadd($item_basic['price_min'], $item_basic['price_max'],3), 100000*2, 3);
+                    $historicalSold = $item_basic['historical_sold'];
 
                     //上架天数，平均每日浏览数，30天平均销量，总平均销量，30天利润，总利润，30天平均利润，总平均利润，平均点赞数，平均每商品每天浏览量
-                    $days = bcdiv(bcsub(time(), $v['ctime']), 86400, 2);
+                    $days = bcdiv(bcsub(time(), $item_basic['ctime']), 86400, 2);
                     $days = $days>0?$days:1;
-                    $avgViewCount = bcdiv($v['view_count'], ($days>30?30:$days), 2);
+                    $avgViewCount = bcdiv($item_basic['view_count'], ($days>30?30:$days), 2);
                     $perViewProduct += $avgViewCount;
-                    $soldProfit = bcmul(bcmul($v['sold'], $price, 2), 0.1, 2);
+                    $soldProfit = bcmul(bcmul($item_basic['sold'], $price, 2), 0.1, 2);
                     $soldHistoricalProfit = bcmul(bcmul($historicalSold, $price, 2), 0.1, 2);
                     $avgSoldHistoricalProfit = bcdiv($soldHistoricalProfit, $days, 2);
                     $perProductProfit += $avgSoldHistoricalProfit;
-                    $avgLike = bcdiv($v['liked_count'], $days, 2);
+                    $avgLike = bcdiv($item_basic['liked_count'], $days, 2);
                     $totalAvgLike += $avgLike;
-                    $profitPerView = bcdiv($soldProfit,($v['view_count']>0?$v['view_count']:1),3);
+                    $profitPerView = bcdiv($soldProfit,($item_basic['view_count']>0?$item_basic['view_count']:1),3);
                     $totalPerViewProduct += $profitPerView;
                 }
 
@@ -135,7 +136,7 @@ class CategoryAnalysisCommand extends Command
         $data['newest'] = $request->newest??0;
 
         $param = http_build_query($data);
-        $url = self::URL_LIST[$platform]."api/v2/search_items/?".$param;
+        $url = self::URL_LIST[$platform]."api/v4/search/search_items/?".$param;
         $k = md5('55b03'.md5($param).'55b03');
         return $this->curlGet($url, $k);
     }
